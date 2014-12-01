@@ -98,7 +98,7 @@ else:
     q30joined = row[6].split(',')
     q30sum = 0
     for q30s in q30joined:
-      q30sum += int(q30s)
+      q30sum += float(q30s)
     fcq30 = q30sum/int(row[4])
     print row[0], row[1], row[2], row[3], row[4], row[5], fcq30
 

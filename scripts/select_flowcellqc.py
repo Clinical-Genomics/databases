@@ -95,7 +95,9 @@ else:
   print "Found something"
   rows = cursor.fetchall()
   for row in rows:
-    print row[0], row[1], row[2], row[3], row[4], row[5], row[6]
+    q30joined = row[6].split(',')
+    fcq30 = sum(q30joined)/row[4]
+    print row[0], row[1], row[2], row[3], row[4], row[5], fcq30
 
 
 

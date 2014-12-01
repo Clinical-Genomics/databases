@@ -87,6 +87,13 @@ cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
                   GROUP BY unaligned.flowcell_id, lane 
                   ORDER BY YEAR(rundate), MONTH(rundate), DAY(rundate); """)
+if not cursor.fetchone():
+  print "Nothing found"
+else:
+  print "Found something"
+  rows = cursor.fetchall()
+  for row in rows:
+    print row[0], row[1], row[2], row[3], row[4]
 
 
 

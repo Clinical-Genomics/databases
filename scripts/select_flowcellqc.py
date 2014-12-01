@@ -3,7 +3,8 @@
 #Import the mysql.connector library/module
 #
 #  from the bash script starting qc parsing to db
-#  /home/clinical/SCRIPTS/parseunaligned_dbserver.py /home/clinical/DEMUX/${RUN}/ /home/clinical/RUNS/${RUN}/Data/Intensities/BaseCalls/SampleSheet.csv
+#  /home/clinical/SCRIPTS/parseunaligned_dbserver.py /home/clinical/DEMUX/${RUN}/ 
+#                                       /home/clinical/RUNS/${RUN}/Data/Intensities/BaseCalls/SampleSheet.csv
 #
 import sys
 import MySQLdb as mysql
@@ -62,6 +63,18 @@ if not cursor.fetchone():
   print "Project not yet added"
 else:
   print "P found"
+
+cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
+                   ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT 
+                  datasource.datasource_id)),1) AS "mil reads/fc"
+                  FROM datasource 
+                  LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
+                  LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
+                  GROUP BY YEAR(rundate), MONTH(rundate) ORDER BY YEAR(rundate), MONTH(rundate); """, ("987546", ))
+if not cursor.fetchone():
+  print "Nothing found"
+else:
+  print "Found something"
 
 
 

@@ -96,7 +96,7 @@ else:
   rows = cursor.fetchall()
   for row in rows:
     q30joined = row[6].split(',')
-    fcq30 = sum(q30joined)/row[4]
+    fcq30 = sum(int(q30joined))/int(row[4])
     print row[0], row[1], row[2], row[3], row[4], row[5], fcq30
 
 

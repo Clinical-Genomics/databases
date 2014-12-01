@@ -78,7 +78,7 @@ else:
   print "Found something"
   rows = cursor.fetchall()
   for row in rows:
-    print row[0], row[1], row[2], row[3], row[4], row[5]
+    print row[0], row[1], row[2], row[3], row[4]
 
 cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", flowcellname, lane,

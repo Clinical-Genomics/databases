@@ -75,7 +75,9 @@ if not cursor.fetchone():
   print "Nothing found"
 else:
   print "Found something"
-
+  rows = cursor.fetchall()
+  for row in rows:
+    print row[0], row[1], row[2], row[3], row[4]
 
 
 exit(0)

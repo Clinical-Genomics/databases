@@ -70,7 +70,7 @@ cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
-                  GROUP BYYEAR(rundate), MONTH(rundate)
+                  GROUP BY YEAR(rundate), MONTH(rundate)
                   ORDER BY YEAR(rundate), MONTH(rundate), DAY(rundate); """)
 if not cursor.fetchone():
   print "Nothing found"

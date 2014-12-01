@@ -87,6 +87,7 @@ cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS r
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
+                  AND rundate = '2014-08-28'
                   GROUP BY unaligned.flowcell_id, lane 
                   ORDER BY rundate, flowcellname, lane """)
 if not cursor.fetchone():
@@ -95,14 +96,15 @@ else:
   print "Found something"
   rows = cursor.fetchall()
   for row in rows:
-    q30joined = row[6].split(',')
-    q30sum = 0
-    for q30s in q30joined:
-      q30sum += float(q30s)
-    if int(row[4]) > 0:
-      fcq30 = q30sum/int(row[4])
-    else:
-      fcq30 = 0
+    
+#    q30joined = row[6].split(',')
+#    q30sum = 0
+#    for q30s in q30joined:
+#      q30sum += float(q30s)
+#    if int(row[4]) > 0:
+#      fcq30 = q30sum/int(row[4])
+#    else:
+    fcq30 = 0
     print row[0], row[1], row[2], row[3], row[4], row[5], fcq30
 
 

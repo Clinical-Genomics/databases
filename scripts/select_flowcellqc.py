@@ -87,7 +87,7 @@ cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS r
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
                   GROUP BY unaligned.flowcell_id, lane 
-                  GROUP BY rundate """)
+                  ORDER BY rundate """)
 if not cursor.fetchone():
   print "Nothing found"
 else:

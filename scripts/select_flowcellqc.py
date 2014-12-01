@@ -65,12 +65,12 @@ else:
   print "P found"
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
-                   ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT 
-                  datasource.datasource_id)),1) AS "mil reads/fc"
+                   ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
+                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane"
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
-                  GROUP BY YEAR(rundate), MONTH(rundate) ORDER BY YEAR(rundate), MONTH(rundate); """, ("987546", ))
+                  GROUP BY YEAR(rundate), MONTH(rundate) ORDER BY YEAR(rundate), MONTH(rundate); """)
 if not cursor.fetchone():
   print "Nothing found"
 else:

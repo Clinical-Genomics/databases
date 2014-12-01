@@ -83,7 +83,7 @@ else:
 cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    flowcellname, lane, SUM(readcounts),
                    ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
-                   ROUND(GROUP_CONCAT(q30_bases_pct*readcounts),1)
+                   GROUP_CONCAT(q30_bases_pct*readcounts)
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 

@@ -1,0 +1,67 @@
+#!/usr/bin/python
+#Script that connects to the MySQL database and parses data from an html table
+#Import the mysql.connector library/module
+#
+#  from the bash script starting qc parsing to db
+#  /home/clinical/SCRIPTS/parseunaligned_dbserver.py /home/clinical/DEMUX/${RUN}/ /home/clinical/RUNS/${RUN}/Data/Intensities/BaseCalls/SampleSheet.csv
+#
+import sys
+import MySQLdb as mysql
+#from bs4 import BeautifulSoup
+import time
+import glob
+import re
+import socket
+import os
+
+# this script is written for database version:
+_MAJOR_ = 1
+_MINOR_ = 0
+_PATCH_ = 0
+
+configfile = "/home/hiseq.clinical/.scilifelabrc"
+if (len(sys.argv)>3):
+  if os.path.isfile(sys.argv[3]):
+    configfile = sys.argv[3]
+    
+params = {}
+with open(configfile, "r") as confs:
+  for line in confs:
+    if len(line) > 5 and not line[0] == "#":
+      line = line.rstrip()
+      pv = line.split(" ")
+      params[pv[0]] = pv[1]
+
+# config file test
+#sys.exit(configfile+ params['STATSDB'])
+
+# read in run parameters from Unaligned/support.txt
+
+now = time.strftime('%Y-%m-%d %H:%M:%S')
+cnx = mysql.connect(user=params['CLINICALDBUSER'], port=int(params['CLINICALDBPORT']), host=params['CLINICALDBHOST'], 
+                    passwd=params['CLINICALDBPASSWD'], db=params['STATSDB'])
+cursor = cnx.cursor()
+
+cursor.execute(""" SELECT major, minor, patch FROM version ORDER BY time DESC LIMIT 1 """)
+row = cursor.fetchone()
+if row is not None:
+  major = row[0]
+  minor = row[1]
+  patch = row[2]
+else:
+  sys.exit("Incorrect DB, version not found.")
+if (major == _MAJOR_ and minor == _MINOR_ and patch == _PATCH_):
+  print "Correct database version "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
+else:
+  exit ("Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)+" not for "+str(major)+"."+str(minor)+"."+str(patch))
+
+print "hello"
+cursor.execute(""" SELECT project_id, time FROM project WHERE projectname = %s """, ("987546", ))
+if not cursor.fetchone():
+  print "Project not yet added"
+else:
+  print "P found"
+
+
+
+exit(0)

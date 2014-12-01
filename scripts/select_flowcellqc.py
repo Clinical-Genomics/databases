@@ -64,8 +64,8 @@ if not cursor.fetchone():
 else:
   print "P found"
 
-cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
-                   ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
+cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS runs, 
+                   ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", flowcellname, lane,
                    ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane"
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
@@ -77,7 +77,7 @@ else:
   print "Found something"
   rows = cursor.fetchall()
   for row in rows:
-    print row[0], row[1], row[2], row[3], row[4]
+    print row[0], row[1], row[2], row[3], row[4], row[5]
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 

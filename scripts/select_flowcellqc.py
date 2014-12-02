@@ -80,10 +80,10 @@ else:
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]
 
-cursor.execute(""" SELECT GROUP_CONCAT(runname), COUNT(DISTINCT datasource.datasource_id) AS runs, 
+cursor.execute(""" SELECT runname, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    flowcellname, lane, SUM(readcounts),
                    ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
-                   GROUP_CONCAT(q30_bases_pct*readcounts), GROUP_CONCAT(datasource.datasource_id)
+                   GROUP_CONCAT(q30_bases_pct*readcounts), datasource.datasource_id
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 

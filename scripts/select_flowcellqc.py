@@ -96,15 +96,14 @@ else:
   print "Found something"
   rows = cursor.fetchall()
   for row in rows:
-    
-#    q30joined = row[6].split(',')
-#    q30sum = 0
-#    for q30s in q30joined:
-#      q30sum += float(q30s)
-#    if int(row[4]) > 0:
-#      fcq30 = q30sum/int(row[4])
-#    else:
-    fcq30 = 0
+    q30joined = row[6].split(',')
+    q30sum = 0
+    for q30s in q30joined:
+      q30sum += float(q30s)
+    if int(row[4]) > 0:
+      fcq30 = q30sum/int(row[4])
+    else:
+      fcq30 = 0
     print row[0], row[1], row[2], row[3], row[4], row[5], fcq30, row[7]
 
 

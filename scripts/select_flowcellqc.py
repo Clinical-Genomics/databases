@@ -80,16 +80,28 @@ else:
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]
 
-cursor.execute(""" SELECT runname, COUNT(DISTINCT datasource.datasource_id) AS runs, 
+completeflowcells = """ SELECT runname, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    flowcellname, lane, SUM(readcounts),
                    ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
-                   GROUP_CONCAT(q30_bases_pct*readcounts), datasource.datasource_id
+                   GROUP_CONCAT(q30_bases_pct*readcounts), datasource.datasource_id, rundate
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
-                 
                   GROUP BY unaligned.flowcell_id, lane 
-                  ORDER BY rundate, flowcellname, lane """)
+                  ORDER BY rundate, flowcellname, lane """
+onlydemuxsamples = """ SELECT runname, COUNT(DISTINCT datasource.datasource_id) AS runs, 
+                   flowcellname, lane, SUM(readcounts),
+                   ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
+                   GROUP_CONCAT(q30_bases_pct*readcounts), datasource.datasource_id, rundate
+                  FROM sample, datasource 
+                  LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
+                  LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
+                  WHERE sample.sample_id = unaligned.sample_id
+                  AND samplename NOT IN ('lane1', lane2')
+                  GROUP BY unaligned.flowcell_id, lane 
+                  ORDER BY rundate, flowcellname, lane """
+
+cursor.execute(onlydemuxsamples)
 if not cursor.fetchone():
   print "Nothing found"
 else:
@@ -104,7 +116,7 @@ else:
       fcq30 = q30sum/int(row[4])
     else:
       fcq30 = 0
-    print row[0], row[1], row[2], row[3], row[4], row[5], "{0:.2f}".format(fcq30), row[7]
+    print row[8], row[0], row[1], row[2], row[3], row[4], row[5], "{0:.2f}".format(fcq30), row[7]
 
 
 

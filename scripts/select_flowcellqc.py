@@ -80,7 +80,7 @@ else:
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]
 
-cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS runs, 
+cursor.execute(""" SELECT GROUP_CONCAT(rundate), COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    flowcellname, lane, SUM(readcounts),
                    ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
                    GROUP_CONCAT(q30_bases_pct*readcounts), GROUP_CONCAT(datasource.datasource_id)

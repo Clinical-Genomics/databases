@@ -87,7 +87,7 @@ cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS r
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
-                  AND rundate = '2014-08-28'
+                 
                   GROUP BY unaligned.flowcell_id, lane 
                   ORDER BY rundate, flowcellname, lane """)
 if not cursor.fetchone():

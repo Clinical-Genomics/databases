@@ -66,7 +66,7 @@ else:
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
-                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane", GROUP_CONCAT(datasource.datasource_id)
+                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane"
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
@@ -83,7 +83,7 @@ else:
 cursor.execute(""" SELECT rundate, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    flowcellname, lane, SUM(readcounts),
                    ROUND(SUM(readcounts)/(2000000),1) AS "mil reads/fc lane",
-                   GROUP_CONCAT(q30_bases_pct*readcounts)
+                   GROUP_CONCAT(q30_bases_pct*readcounts), GROUP_CONCAT(datasource.datasource_id)
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 

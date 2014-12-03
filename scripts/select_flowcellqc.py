@@ -101,7 +101,7 @@ onlydemuxsamples = """ SELECT runname, COUNT(DISTINCT datasource.datasource_id) 
                   GROUP BY unaligned.flowcell_id, lane 
                   ORDER BY rundate, flowcellname, lane """
 
-cursor.execute(onlydemuxsamples)
+cursor.execute(completeflowcells)
 if not cursor.fetchone():
   print "Nothing found"
 else:

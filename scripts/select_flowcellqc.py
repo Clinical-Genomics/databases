@@ -116,7 +116,7 @@ else:
       fcq30 = q30sum/int(row[4])
     else:
       fcq30 = 0
-    print row[8], row[0], row[1], row[2], row[3], row[4], row[5], "{0:.2f}".format(fcq30), row[7]
+    print row[8], row[0], row[1], row[2], row[3], row[4], row[5], "{0:.2f}".format(fcq30), row[7], "{0:.2f}".format(row[5]*fcq30/100)
 
 
 

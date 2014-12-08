@@ -48,7 +48,7 @@ if (str(major)+"."+str(minor)+"."+str(patch) == _VERSION_):
 else:
   exit ("Incorrect DB version. This script is made for "+str(_VERSION_)+" not for "+str(major)+"."+str(minor)+"."+str(patch))
 
-print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"\n")
+print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"  ver "+_VERSION_+"\n")
 
 cursor.execute(""" SELECT project.projectname, flowcell.flowcellname, sample.samplename, unaligned.lane, 
 unaligned.readcounts, unaligned.yield_mb, TRUNCATE(q30_bases_pct,2), TRUNCATE(mean_quality_score,2),

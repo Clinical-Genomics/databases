@@ -9,11 +9,6 @@ import time
 import glob
 import re
 
-# this script is written for database version:
-_MAJOR_ = 1
-_MINOR_ = 0
-_PATCH_ = 0
-
 if (len(sys.argv)>1):
   fcname = sys.argv[1]
 else:
@@ -34,6 +29,8 @@ with open(configfile, "r") as confs:
       params[pv[0]] = pv[1]
 
 now = time.strftime('%Y-%m-%d %H:%M:%S')
+# this script is written for database version:
+_VERSION_ = params['DBVERSION']
 cnx = mysql.connect(user=params['CLINICALDBUSER'], port=int(params['CLINICALDBPORT']), host=params['CLINICALDBHOST'], 
                     passwd=params['CLINICALDBPASSWD'], db=params['STATSDB'])
 cursor = cnx.cursor()
@@ -46,10 +43,10 @@ if row is not None:
   patch = row[2]
 else:
   sys.exit("Incorrect DB, version not found.")
-if (major == _MAJOR_ and minor == _MINOR_ and patch == _PATCH_):
-  print "Correct database "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
+if (str(major)+"."+str(minor)+"."+str(patch) == _VERSION_):
+  print "Correct database "+str(_VERSION_)
 else:
-  exit ("Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)+" not for "+str(major)+"."+str(minor)+"."+str(patch))
+  exit ("Incorrect DB version. This script is made for "+str(_VERSION_)+" not for "+str(major)+"."+str(minor)+"."+str(patch))
 
 print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"\n")
 

@@ -62,7 +62,10 @@ query1 = """ SELECT projectname, samplename, GROUP_CONCAT(sample.sample_id), MIN
              WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
 cursor.execute(query1)
 for row in cursor.fetchall():
-  if row[5] > 4:
-    print row[2], row[3]
+  if row[5] > 1:
+    ids = row[2].split(',')
+    for id in ids:
+      query2 = " UPDATE TABLE unaligned SET sample_id = '"+row[3]+"' WHERE sample_id IN ("+row[2]+") " 
+      print query2
 
 exit(0)

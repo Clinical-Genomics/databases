@@ -65,7 +65,7 @@ for row in cursor.fetchall():
   if row[5] > 1:
     ids = row[2].split(',')
     for id in ids:
-      query2 = " UPDATE TABLE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
+      query2 = " UPDATE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
       try:
         cursor.execute(query2)
       except mysql.IntegrityError, e:

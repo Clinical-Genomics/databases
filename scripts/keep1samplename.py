@@ -19,7 +19,7 @@ print "No config file given."
 
 
 configfile = "/home/hiseq.clinical/.scilifelabrc"
-if (len(sys.argv)>0):
+if (len(sys.argv)>1):
   if os.path.isfile(sys.argv[1]):
     configfile = sys.argv[1]
     

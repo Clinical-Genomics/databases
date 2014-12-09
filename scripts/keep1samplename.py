@@ -29,7 +29,7 @@ with open(configfile, "r") as confs:
     if len(line) > 5 and not line[0] == "#":
       line = line.rstrip()
       pv = line.split(" ")
-      params[pv[0]] = pv
+      params[pv[0]] = pv[1]
       
 now = time.strftime('%Y-%m-%d %H:%M:%S')
 # this script is written for database version:

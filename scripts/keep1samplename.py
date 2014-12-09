@@ -7,7 +7,6 @@
 #
 import sys
 import MySQLdb as mysql
-from bs4 import BeautifulSoup
 import time
 import glob
 import re

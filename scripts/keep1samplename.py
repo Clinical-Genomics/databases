@@ -56,4 +56,13 @@ else:
          +str(major)+"."+str(minor)+"."+str(patch))
 
 
+query1 = """ SELECT projectname, samplename, GROUP_CONCAT(sample.sample_id), MIN(sample.sample_id), 
+             unaligned_id, COUNT(sample.sample_id)
+             FROM sample,project,unaligned 
+             WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
+cursor.execute(query1)
+for row in cursor.fetchall():
+  if row[5] > 4:
+    print row[2], row[3]
+
 exit(0)

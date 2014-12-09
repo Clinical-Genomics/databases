@@ -15,14 +15,16 @@ import os
 
 message = ("usage: "+sys.argv[0]+" <config_file:optional>")
 print message
-print "No config file given."
 
 
 configfile = "/home/hiseq.clinical/.scilifelabrc"
 if (len(sys.argv)>1):
   if os.path.isfile(sys.argv[1]):
     configfile = sys.argv[1]
-    
+    print "Using config "+configfile
+else:
+  print "No config file given."
+
 params = {}
 with open(configfile, "r") as confs:
   for line in confs:

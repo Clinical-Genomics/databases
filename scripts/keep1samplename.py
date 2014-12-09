@@ -57,7 +57,7 @@ else:
 
 
 query1 = """ SELECT projectname, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
-             unaligned_id, COUNT(sample.sample_id)
+             unaligned_id, COUNT(DISTINCT sample.sample_id)
              FROM sample,project,unaligned 
              WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
 cursor.execute(query1)

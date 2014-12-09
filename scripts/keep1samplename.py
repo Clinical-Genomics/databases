@@ -66,6 +66,20 @@ for row in cursor.fetchall():
     ids = row[2].split(',')
     for id in ids:
       query2 = " UPDATE TABLE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
-      print query2
+      try:
+        cursor.execute(query2)
+      except mysql.IntegrityError, e:
+        print "Error %d: %s" % (e.args[0],e.args[1])
+        exit("DB error")
+      except mysql.Error, e:
+        print "Error %d: %s" % (e.args[0],e.args[1])
+        exit("Syntax error")
+      except mysql.Warning, e:
+        print "Warning %d: %s" % (e.args[0],e.args[1])
+        exit("MySQL warning")
+      cnx.commit()
+      print str(f) + " deleted "
+
+      print "done "+query2
 
 exit(0)

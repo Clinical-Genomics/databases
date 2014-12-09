@@ -78,8 +78,6 @@ for row in cursor.fetchall():
         print "Warning %d: %s" % (e.args[0],e.args[1])
         exit("MySQL warning")
       cnx.commit()
-      print str(f) + " deleted "
-
       print "done "+query2
 
 exit(0)

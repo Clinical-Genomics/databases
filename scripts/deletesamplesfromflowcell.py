@@ -113,6 +113,16 @@ for row in data:
   else:
     "Already added"
 
+query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM samlpe, unaligned 
+            WHERE sample.sample_id = unaligned.sample_id 
+            AND sample.sample_id IN ("""+str(smpls).replace('L', "")+""")
+           AND NOT unaligned_id IN ("""+str(unals).replace('L', "")+""") """
+
+cursor.execute(query)
+reply = cursor.fetchall()
+for row in reply:
+  print row[0], row[1], row[2], row[3] 
+
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")

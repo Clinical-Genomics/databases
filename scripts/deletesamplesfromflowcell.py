@@ -137,7 +137,8 @@ for row in reply:
   print row[0], row[1], row[2], row[3], row[4] 
   # now we keep all sample_ids that have statistics from other flowcells
   if row[1] in smpls:
-    print row[1]
+    smpls.remove(row[1])
+    print row[1], smpls
 
 yourreply = raw_input("\n\tDO YOU want to delete these statistics from the database? YES/[no] ")
 

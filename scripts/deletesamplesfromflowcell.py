@@ -159,7 +159,7 @@ else:
   cnx.close()
   exit(0)
 
-print "Will delete unaligned"
+print "Will delete unaligned (if not present on other flowcells)"
 for f in unals:
   try:
     cursor.execute(""" DELETE FROM unaligned WHERE unaligned_id = '{0}' """.format(f))

@@ -113,17 +113,18 @@ for row in data:
   else:
     "Already added"
 
-query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM samlpe, unaligned 
-            WHERE sample.sample_id = unaligned.sample_id 
-            AND sample.sample_id IN ("""+str(smpls).replace('L', "")+""")
-           AND NOT unaligned_id IN ("""+str(unals).replace('L', "")+""") """
-
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
 
+_samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
+_unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")
+query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM samlpe, unaligned 
+            WHERE sample.sample_id = unaligned.sample_id 
+            AND sample.sample_id IN ("""+_samples_+""")
+           AND NOT unaligned_id IN ("""+_unalgns_+""") """
 cursor.execute(query)
 reply = cursor.fetchall()
 for row in reply:

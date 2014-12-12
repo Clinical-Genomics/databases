@@ -121,14 +121,20 @@ print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", 
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
 _unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")
-query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM sample, unaligned 
+query0 = """ SELECT samplename, sample.sample_id, unaligned_id, lane, flowcell_id FROM sample, unaligned 
             WHERE sample.sample_id = unaligned.sample_id 
             AND sample.sample_id IN ("""+_samples_+""")
            AND NOT unaligned_id IN ("""+_unalgns_+""") """
+query = """ SELECT samplename, GROUP_CONCAT(unaligned_id), GROUP_CONCAT(sample_id), 
+            COUNT(DISTINCT unaligned_id), COUNT(DISTINCT flowcell_id) FROM sample, unaligned 
+            WHERE sample.sample_id = unaligned.sample_id 
+            AND sample.sample_id IN ("""+_samples_+""")
+           AND NOT unaligned_id IN ("""+_unalgns_+""") 
+           GROUP BY sample.sample_id  """
 cursor.execute(query)
 reply = cursor.fetchall()
 for row in reply:
-  print row[0], row[1], row[2], row[3] 
+  print row[0], row[1], row[2], row[3], row[4] 
 
 yourreply = raw_input("\n\tDO YOU want to delete these statistics from the database? YES/[no] ")
 

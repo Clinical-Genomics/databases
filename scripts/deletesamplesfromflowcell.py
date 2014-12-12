@@ -125,7 +125,7 @@ query0 = """ SELECT samplename, sample.sample_id, unaligned_id, lane, flowcell_i
             WHERE sample.sample_id = unaligned.sample_id 
             AND sample.sample_id IN ("""+_samples_+""")
            AND NOT unaligned_id IN ("""+_unalgns_+""") """
-query = """ SELECT samplename, GROUP_CONCAT(unaligned_id), GROUP_CONCAT(sample_id), 
+query = """ SELECT samplename, GROUP_CONCAT(unaligned_id), GROUP_CONCAT(sample.sample_id), 
             COUNT(DISTINCT unaligned_id), COUNT(DISTINCT flowcell_id) FROM sample, unaligned 
             WHERE sample.sample_id = unaligned.sample_id 
             AND sample.sample_id IN ("""+_samples_+""")

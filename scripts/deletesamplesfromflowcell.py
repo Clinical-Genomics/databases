@@ -118,17 +118,16 @@ query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM samlpe, unal
             AND sample.sample_id IN ("""+str(smpls).replace('L', "")+""")
            AND NOT unaligned_id IN ("""+str(unals).replace('L', "")+""") """
 
-cursor.execute(query)
-reply = cursor.fetchall()
-for row in reply:
-  print row[0], row[1], row[2], row[3] 
-
-
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
+
+cursor.execute(query)
+reply = cursor.fetchall()
+for row in reply:
+  print row[0], row[1], row[2], row[3] 
 
 yourreply = raw_input("\n\tDO YOU want to delete these statistics from the database? YES/[no] ")
 

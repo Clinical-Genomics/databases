@@ -121,7 +121,7 @@ print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", 
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
 _unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")
-query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM samlpe, unaligned 
+query = """ SELECT samplename, unaligned_id, lane, flowcell_id FROM sample, unaligned 
             WHERE sample.sample_id = unaligned.sample_id 
             AND sample.sample_id IN ("""+_samples_+""")
            AND NOT unaligned_id IN ("""+_unalgns_+""") """

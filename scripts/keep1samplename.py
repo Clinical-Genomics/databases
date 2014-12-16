@@ -2,8 +2,6 @@
 #Script that connects to the MySQL database and parses data from an html table
 #Import the mysql.connector library/module
 #
-#  from the bash script starting qc parsing to db
-#  /home/clinical/SCRIPTS/parseunaligned_dbserver.py /home/clinical/DEMUX/${RUN}/ /home/clinical/RUNS/${RUN}/Data/Intensities/BaseCalls/SampleSheet.csv
 #
 import sys
 import MySQLdb as mysql

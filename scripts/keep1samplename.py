@@ -53,6 +53,7 @@ else:
   exit ("Incorrect DB version. This script is made for "+str(_VERSION_)+" not for "
          +str(major)+"."+str(minor)+"."+str(patch))
 
+print "Database: "+params['STATSDB']
 yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
 if yourreply != "YES":
   exit()

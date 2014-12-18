@@ -159,7 +159,7 @@ else:
   cnx.close()
   exit(0)
 
-print "Will delete unaligned (if not present on other flowcells)"
+print "Will delete unaligned"
 for f in unals:
   try:
     cursor.execute(""" DELETE FROM unaligned WHERE unaligned_id = '{0}' """.format(f))
@@ -175,9 +175,9 @@ for f in unals:
   cnx.commit()
   print str(f) + " deleted "
 
-print "Will delete sample"
+print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
-  cursor.execute(""" SELECT sample_id, unaligned_id, flowcellname FROM flowcell, unaligned 
+  cursor.execute(""" SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
                      WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f))
   data = cursor.fetchall()
   if data:  

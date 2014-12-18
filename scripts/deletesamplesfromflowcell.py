@@ -131,14 +131,14 @@ query = """ SELECT samplename, sample.sample_id, GROUP_CONCAT(unaligned_id),
             AND sample.sample_id IN ("""+_samples_+""")
            AND NOT unaligned_id IN ("""+_unalgns_+""") 
            GROUP BY sample.sample_id  """
-cursor.execute(query)
-reply = cursor.fetchall()
-for row in reply:
-  print row[0], row[1], row[2], row[3], row[4] 
-  # now we keep all sample_ids that have statistics from other flowcells
-  if row[1] in smpls:
-    smpls.remove(row[1])
-    print row[1], smpls
+#cursor.execute(query)
+#reply = cursor.fetchall()
+#for row in reply:
+#  print row[0], row[1], row[2], row[3], row[4] 
+#  # now we keep all sample_ids that have statistics from other flowcells
+#  if row[1] in smpls:
+#    smpls.remove(row[1])
+#    print row[1], smpls
 
 yourreply = raw_input("\n\tDO YOU want to delete these statistics from the database? YES/[no] ")
 
@@ -177,8 +177,10 @@ for f in unals:
 
 print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
-  cursor.execute(""" SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
-                     WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f))
+  query = """ SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
+                     WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f)
+  print query
+  cursor.execute(query)
   data = cursor.fetchall()
   if data:  
     for ff in data:

@@ -184,7 +184,7 @@ for f in smpls:
   data = cursor.fetchall()
   if data:  
     for ff in data:
-      if (f != 18 or f != 19):
+      if (f != 18 and f != 19):
         print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
   else:
     try:
@@ -199,7 +199,7 @@ for f in smpls:
       print "Warning %d: %s" % (e.args[0],e.args[1])
       exit("MySQL warning")
     cnx.commit()
-    print "Sample id " + str(f) + " unaligned not found - deleted "
+    print "Sample id " + str(f) + " [unaligned not found] - deleted "
 
 print "Will delete flowcell"
 for f in FCs:

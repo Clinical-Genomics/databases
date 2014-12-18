@@ -230,7 +230,7 @@ for f in srid:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Sample_id " + str(f) + " deleted "
 
 print "Will delete supportparams"
 for f in sprtps:

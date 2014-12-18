@@ -173,18 +173,19 @@ for f in unals:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Unaligned id " + str(f) + " deleted "
 
 print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
   query = """ SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
                      WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f)
-  print query
+#  print query
   cursor.execute(query)
   data = cursor.fetchall()
   if data:  
     for ff in data:
-      print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
+      if (f != 18 or f != 19):
+        print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
   else:
     try:
       cursor.execute(""" DELETE FROM sample WHERE sample_id = '{0}' """.format(f))
@@ -198,7 +199,7 @@ for f in smpls:
       print "Warning %d: %s" % (e.args[0],e.args[1])
       exit("MySQL warning")
     cnx.commit()
-    print str(f) + " deleted "
+    print "Sample id " + str(f) + " unaligned not found - deleted "
 
 print "Will delete flowcell"
 for f in FCs:
@@ -214,7 +215,7 @@ for f in FCs:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "FC " + str(f) + " deleted "
 
 print "Will delete datasource"
 for f in srid:
@@ -230,7 +231,7 @@ for f in srid:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "Sample_id " + str(f) + " deleted "
+  print "Datasource id " + str(f) + " deleted "
 
 print "Will delete supportparams"
 for f in sprtps:
@@ -246,7 +247,7 @@ for f in sprtps:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Supportparams id " + str(f) + " deleted "
 
 cnx.commit()
 cursor.close()

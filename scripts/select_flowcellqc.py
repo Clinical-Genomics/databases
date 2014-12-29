@@ -59,7 +59,7 @@ if yourreply != "YES":
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
-                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane"
+                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc"
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
@@ -68,7 +68,7 @@ cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(
 if not cursor.fetchone():
   print "Nothing found"
 else:
-  print "YEAR MM runs Mreads reads/fc lane"
+  print "YEAR MM runs Mreads reads/fc"
   rows = cursor.fetchall()
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]

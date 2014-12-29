@@ -18,12 +18,12 @@ import os
 # this script is written for database version:
 _MAJOR_ = 1
 _MINOR_ = 0
-_PATCH_ = 0
+_PATCH_ = 1
 
 configfile = "/home/hiseq.clinical/.scilifelabrc"
 if (len(sys.argv)>1):
-  if os.path.isfile(sys.argv[2]):
-    configfile = sys.argv[2]
+  if os.path.isfile(sys.argv[1]):
+    configfile = sys.rgv[1]
     
 params = {}
 with open(configfile, "r") as confs:

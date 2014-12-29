@@ -44,10 +44,10 @@ if row is not None:
   patch = row[2]
 else:
   sys.exit("Incorrect DB, version not found.")
-if (major == _MAJOR_ and minor == _MINOR_ and patch == _PATCH_):
-  print "Correct database " + params['STATSDB'] + "  version "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
+if (str(major)+"."+str(minor)+"."+str(patch) == _VERSION_):
+  print "Correct database " + params['STATSDB'] + "  version "+str(_VERSION_)
 else:
-  exit (params['STATSDB'] + " - Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_) +
+  exit (params['STATSDB'] + " - Incorrect DB version. This script is made for "+str(_VERSION_) +
       " not for " + str(major)+"."+str(minor)+"."+str(patch))
 
 yourreply = raw_input("\n\tIs this the correct database? YES/[no] ")

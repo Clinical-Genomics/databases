@@ -15,11 +15,6 @@ import re
 import socket
 import os
 
-# this script is written for database version:
-_MAJOR_ = 1
-_MINOR_ = 0
-_PATCH_ = 1
-
 configfile = "/home/hiseq.clinical/.scilifelabrc"
 if (len(sys.argv)>1):
   if os.path.isfile(sys.argv[1]):
@@ -35,6 +30,8 @@ with open(configfile, "r") as confs:
 
 
 now = time.strftime('%Y-%m-%d %H:%M:%S')
+# this script is written for database version:
+_VERSION_ = params['DBVERSION']
 cnx = mysql.connect(user=params['CLINICALDBUSER'], port=int(params['CLINICALDBPORT']), host=params['CLINICALDBHOST'], 
                     passwd=params['CLINICALDBPASSWD'], db=params['STATSDB'])
 cursor = cnx.cursor()

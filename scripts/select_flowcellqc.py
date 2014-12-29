@@ -52,17 +52,11 @@ if row is not None:
 else:
   sys.exit("Incorrect DB, version not found.")
 if (major == _MAJOR_ and minor == _MINOR_ and patch == _PATCH_):
-  print "Correct database version "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
+  print "Correct database " + params['STATSDB'] + "  version "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
 else:
-  exit ("Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)+" not for "+
-         str(major)+"."+str(minor)+"."+str(patch))
+  exit (params['STATSDB'] + " - Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_) +
+      " not for " + str(major)+"."+str(minor)+"."+str(patch))
 
-print "hello"
-cursor.execute(""" SELECT project_id, time FROM project WHERE projectname = %s """, ("987546", ))
-if not cursor.fetchone():
-  print "Project not yet added"
-else:
-  print "P found"
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
@@ -75,7 +69,7 @@ cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(
 if not cursor.fetchone():
   print "Nothing found"
 else:
-  print "Found something"
+  print "YEAR MM runs Mreads reads/fc lane"
   rows = cursor.fetchall()
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]
@@ -105,7 +99,7 @@ cursor.execute(completeflowcells)
 if not cursor.fetchone():
   print "Nothing found"
 else:
-  print "Found something"
+  print "start runname cnt fc lane readcounts Mreads/lane Q30 runid reads>Q30"
   rows = cursor.fetchall()
   for row in rows:
     q30joined = row[6].split(',')

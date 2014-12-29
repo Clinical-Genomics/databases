@@ -23,7 +23,7 @@ _PATCH_ = 1
 configfile = "/home/hiseq.clinical/.scilifelabrc"
 if (len(sys.argv)>1):
   if os.path.isfile(sys.argv[1]):
-    configfile = sys.rgv[1]
+    configfile = sys.argv[1]
     
 params = {}
 with open(configfile, "r") as confs:

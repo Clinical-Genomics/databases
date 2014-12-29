@@ -18,7 +18,7 @@ import os
 # this script is written for database version:
 _MAJOR_ = 1
 _MINOR_ = 0
-_PATCH_ = 1
+_PATCH_ = 0
 
 configfile = "/home/hiseq.clinical/.scilifelabrc"
 if (len(sys.argv)>1):

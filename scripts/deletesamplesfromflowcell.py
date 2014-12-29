@@ -113,12 +113,32 @@ for row in data:
   else:
     "Already added"
 
-
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
+
+_samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
+_unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")
+query0 = """ SELECT samplename, sample.sample_id, unaligned_id, lane, flowcell_id FROM sample, unaligned 
+            WHERE sample.sample_id = unaligned.sample_id 
+            AND sample.sample_id IN ("""+_samples_+""")
+           AND NOT unaligned_id IN ("""+_unalgns_+""") """
+query = """ SELECT samplename, sample.sample_id, GROUP_CONCAT(unaligned_id), 
+            COUNT(DISTINCT unaligned_id), COUNT(DISTINCT flowcell_id) FROM sample, unaligned 
+            WHERE sample.sample_id = unaligned.sample_id 
+            AND sample.sample_id IN ("""+_samples_+""")
+           AND NOT unaligned_id IN ("""+_unalgns_+""") 
+           GROUP BY sample.sample_id  """
+#cursor.execute(query)
+#reply = cursor.fetchall()
+#for row in reply:
+#  print row[0], row[1], row[2], row[3], row[4] 
+#  # now we keep all sample_ids that have statistics from other flowcells
+#  if row[1] in smpls:
+#    smpls.remove(row[1])
+#    print row[1], smpls
 
 yourreply = raw_input("\n\tDO YOU want to delete these statistics from the database? YES/[no] ")
 
@@ -153,16 +173,19 @@ for f in unals:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Unaligned id " + str(f) + " deleted "
 
-print "Will delete sample"
+print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
-  cursor.execute(""" SELECT sample_id, unaligned_id, flowcellname FROM flowcell, unaligned 
-                     WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f))
+  query = """ SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
+                     WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f)
+#  print query
+  cursor.execute(query)
   data = cursor.fetchall()
   if data:  
     for ff in data:
-      print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
+      if (f != 18 and f != 19):
+        print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
   else:
     try:
       cursor.execute(""" DELETE FROM sample WHERE sample_id = '{0}' """.format(f))
@@ -176,7 +199,7 @@ for f in smpls:
       print "Warning %d: %s" % (e.args[0],e.args[1])
       exit("MySQL warning")
     cnx.commit()
-    print str(f) + " deleted "
+    print "Sample id " + str(f) + " [unaligned not found] - deleted "
 
 print "Will delete flowcell"
 for f in FCs:
@@ -192,7 +215,7 @@ for f in FCs:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "FC " + str(f) + " deleted "
 
 print "Will delete datasource"
 for f in srid:
@@ -208,7 +231,7 @@ for f in srid:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Datasource id " + str(f) + " deleted "
 
 print "Will delete supportparams"
 for f in sprtps:
@@ -224,7 +247,7 @@ for f in sprtps:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print str(f) + " deleted "
+  print "Supportparams id " + str(f) + " deleted "
 
 cnx.commit()
 cursor.close()

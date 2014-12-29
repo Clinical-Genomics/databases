@@ -21,9 +21,9 @@ _MINOR_ = 0
 _PATCH_ = 0
 
 configfile = "/home/hiseq.clinical/.scilifelabrc"
-if (len(sys.argv)>3):
-  if os.path.isfile(sys.argv[3]):
-    configfile = sys.argv[3]
+if (len(sys.argv)>1):
+  if os.path.isfile(sys.argv[2]):
+    configfile = sys.argv[2]
     
 params = {}
 with open(configfile, "r") as confs:
@@ -33,10 +33,6 @@ with open(configfile, "r") as confs:
       pv = line.split(" ")
       params[pv[0]] = pv[1]
 
-# config file test
-#sys.exit(configfile+ params['STATSDB'])
-
-# read in run parameters from Unaligned/support.txt
 
 now = time.strftime('%Y-%m-%d %H:%M:%S')
 cnx = mysql.connect(user=params['CLINICALDBUSER'], port=int(params['CLINICALDBPORT']), host=params['CLINICALDBHOST'], 
@@ -57,6 +53,9 @@ else:
   exit (params['STATSDB'] + " - Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_) +
       " not for " + str(major)+"."+str(minor)+"."+str(patch))
 
+yourreply = raw_input("\n\tIs this the correct database? YES/[no] ")
+if yourreply != "YES":
+  exit()
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 

@@ -53,7 +53,7 @@ print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"  ver "+_VERSION_
 cursor.execute(""" SELECT project.projectname, flowcell.flowcellname, sample.samplename, unaligned.lane, 
 unaligned.readcounts, unaligned.yield_mb, TRUNCATE(q30_bases_pct,2), TRUNCATE(mean_quality_score,2),
 flowcell.flowcell_id, sample.sample_id, unaligned.unaligned_id, datasource.datasource_id, datasource.document_path,
-supportparams.supportparams_id
+supportparams.supportparams_id, project.project_id
 FROM sample, flowcell, unaligned, project, datasource, supportparams
 WHERE sample.sample_id     = unaligned.sample_id
 AND   flowcell.flowcell_id = unaligned.flowcell_id
@@ -69,13 +69,15 @@ unals = []
 srcs = []
 srid = []
 sprtps = []
+projs = []
 
 if data:
-  print "Project\tFlowcell\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id"
+  print "Project\tFlowcell\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id\tproject_id"
 else:
   print "Flowcell " + fcname + " not found . . ."
 for row in data:
-  print row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t"+str(row[7])+"\t"+str(row[11])
+  print row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t" + 
+        str(row[7])+"\t"+str(row[11])+"\t"+str(row[14])
   try:
     exist = FCs.index(row[8])
   except ValueError:
@@ -112,12 +114,19 @@ for row in data:
     sprtps.append(row[13])
   else:
     "Already added"
+  try:
+    exist = projs.index(row[14])
+  except ValueError:
+    projs.append(row[14])
+  else:
+    "Already added"
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
+print "\tFound " + str(len(projs)) + " supportps, " + str(projs).replace("L", "")
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
 _unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")

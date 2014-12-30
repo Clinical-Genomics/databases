@@ -53,7 +53,7 @@ print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"  ver "+_VERSION_
 cursor.execute(""" SELECT project.projectname, flowcell.flowcellname, sample.samplename, unaligned.lane, 
 unaligned.readcounts, unaligned.yield_mb, TRUNCATE(q30_bases_pct,2), TRUNCATE(mean_quality_score,2),
 flowcell.flowcell_id, sample.sample_id, unaligned.unaligned_id, datasource.datasource_id, datasource.document_path,
-supportparams.supportparams_id, project.project_id
+supportparams.supportparams_id, project.project_id, supportparams.document_path
 FROM sample, flowcell, unaligned, project, datasource, supportparams
 WHERE sample.sample_id     = unaligned.sample_id
 AND   flowcell.flowcell_id = unaligned.flowcell_id
@@ -69,6 +69,7 @@ unals = []
 srcs = []
 srid = []
 sprtps = []
+sprtids = []
 projs = []
 
 if data:
@@ -109,9 +110,9 @@ for row in data:
   else:
     "Already added"
   try:
-    exist = sprtps.index(row[13])
+    exist = sprtids.index(row[13])
   except ValueError:
-    sprtps.append(row[13])
+    sprtids.append(row[13])
   else:
     "Already added"
   try:
@@ -120,12 +121,18 @@ for row in data:
     projs.append(row[14])
   else:
     "Already added"
+  try:
+    exist = sprtps.index(row[15])
+  except ValueError:
+    sprtps.append(row[15])
+  else:
+    "Already added"
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
-print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
+print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") " ids " + str(sprtids).replace("L", "")
 print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")

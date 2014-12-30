@@ -53,7 +53,7 @@ print ("\n\tFC: "+fcname+"    DATABASE IS "+params['STATSDB']+"  ver "+_VERSION_
 cursor.execute(""" SELECT project.projectname, flowcell.flowcellname, sample.samplename, unaligned.lane, 
 unaligned.readcounts, unaligned.yield_mb, TRUNCATE(q30_bases_pct,2), TRUNCATE(mean_quality_score,2),
 flowcell.flowcell_id, sample.sample_id, unaligned.unaligned_id, datasource.datasource_id, datasource.document_path,
-supportparams.supportparams_id
+supportparams.supportparams_id, project.project_id, supportparams.document_path
 FROM sample, flowcell, unaligned, project, datasource, supportparams
 WHERE sample.sample_id     = unaligned.sample_id
 AND   flowcell.flowcell_id = unaligned.flowcell_id
@@ -69,13 +69,16 @@ unals = []
 srcs = []
 srid = []
 sprtps = []
+sprtids = []
+projs = []
 
 if data:
-  print "Project\tFlowcell\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id"
+  print "Project\tFlowcell\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id\tproject_id"
 else:
   print "Flowcell " + fcname + " not found . . ."
 for row in data:
-  print row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t"+str(row[7])+"\t"+str(row[11])
+  print (row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t" + 
+        str(row[7])+"\t"+str(row[11])+"\t"+str(row[14]))
   try:
     exist = FCs.index(row[8])
   except ValueError:
@@ -107,9 +110,21 @@ for row in data:
   else:
     "Already added"
   try:
-    exist = sprtps.index(row[13])
+    exist = sprtids.index(row[13])
   except ValueError:
-    sprtps.append(row[13])
+    sprtids.append(row[13])
+  else:
+    "Already added"
+  try:
+    exist = projs.index(row[14])
+  except ValueError:
+    projs.append(row[14])
+  else:
+    "Already added"
+  try:
+    exist = sprtps.index(row[15])
+  except ValueError:
+    sprtps.append(row[15])
   else:
     "Already added"
 
@@ -117,7 +132,8 @@ print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
-print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
+print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
+print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
 _unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")
@@ -179,12 +195,12 @@ print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
   query = """ SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
                      WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f)
-#  print query
   cursor.execute(query)
   data = cursor.fetchall()
   if data:  
     for ff in data:
-      if (f != 18 and f != 19):
+      #  THESE sample_ids corresponds to undetermined indices AND will therefore remain in db
+      if (f != 18 and f != 19 and f != 3796 and f != 3797 and f != 3808 and f != 3809 and f != 3810 and f != 3811):
         print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
   else:
     try:
@@ -215,7 +231,7 @@ for f in FCs:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "FC " + str(f) + " deleted "
+  print "FC " + str(f) + " deleted [if found] "
 
 print "Will delete datasource"
 for f in srid:
@@ -231,10 +247,10 @@ for f in srid:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "Datasource id " + str(f) + " deleted "
+  print "Datasource id " + str(f) + " deleted [if found] "
 
 print "Will delete supportparams"
-for f in sprtps:
+for f in sprtids:
   try:
     cursor.execute(""" DELETE FROM supportparams WHERE supportparams_id = '{0}' """.format(f))
   except mysql.IntegrityError, e:
@@ -247,7 +263,33 @@ for f in sprtps:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "Supportparams id " + str(f) + " deleted "
+  print "Supportparams id " + str(f) + " deleted [if found] "
+
+print "Will delete project (if no samples left in it)"
+for f in projs:
+  query = """ SELECT samplename FROM sample 
+              WHERE project_id = '{0}' """.format(f)
+  cursor.execute(query)
+  data = cursor.fetchall()
+  if data:  
+    for ff in data:
+      #  This project_id defines Undetermined_indices AND should remain in db
+      if (f != 2):
+        print "Found project_id: "+str(f)+"   for sample: "+ff[0]
+  else:
+    try:
+      cursor.execute(""" DELETE FROM project WHERE project_id = '{0}' """.format(f))
+    except mysql.IntegrityError, e:      
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("DB error")
+    except mysql.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("Syntax error")
+    except mysql.Warning, e:
+      print "Warning %d: %s" % (e.args[0],e.args[1])
+      exit("MySQL warning")
+    cnx.commit()
+    print "Project id " + str(f) + " [no samples found] - deleted "
 
 cnx.commit()
 cursor.close()

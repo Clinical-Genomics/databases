@@ -199,7 +199,8 @@ for f in smpls:
   data = cursor.fetchall()
   if data:  
     for ff in data:
-      if (f != 18 and f != 19):
+      #  THESE sample_ids corresponds to undetermined indices AND will therefore remain in db
+      if (f != 18 and f != 19 and f != 3796 and f != 3797 and f != 3808 and f != 3809 and f != 3810 and f != 3811):
         print "Found sample_id "+str(f)+" unaligned_id: "+str(ff[0])+" from fc "+ff[1]
   else:
     try:
@@ -272,6 +273,7 @@ for f in projs:
   data = cursor.fetchall()
   if data:  
     for ff in data:
+      #  This project_id defines Undetermined_indices AND should remain in db
       if (f != 2):
         print "Found project_id: "+str(f)+"   for sample: "+ff[0]
   else:

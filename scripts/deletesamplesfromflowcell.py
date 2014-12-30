@@ -132,7 +132,7 @@ print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
-print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") " ids " + str(sprtids).replace("L", "")
+print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
 print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")

@@ -76,8 +76,8 @@ if data:
 else:
   print "Flowcell " + fcname + " not found . . ."
 for row in data:
-  print row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t" + 
-        str(row[7])+"\t"+str(row[11])+"\t"+str(row[14])
+  print (row[0]+"\t"+row[1]+"\t"+str(row[2])+"\t"+str(row[3])+"\t"+str(row[4])+"\t"+str(row[5])+"\t"+str(row[6])+"\t" + 
+        str(row[7])+"\t"+str(row[11])+"\t"+str(row[14]))
   try:
     exist = FCs.index(row[8])
   except ValueError:

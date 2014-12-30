@@ -250,9 +250,12 @@ for f in srid:
   print "Datasource id " + str(f) + " deleted "
 
 print "Will delete supportparams"
-for f in sprtps:
+for f in sprtids:
   try:
     cursor.execute(""" DELETE FROM supportparams WHERE supportparams_id = '{0}' """.format(f))
+    data = cursor.fetchone()
+    if data[0] == 0:
+      print "No entry deleted!"
   except mysql.IntegrityError, e:
     print "Error %d: %s" % (e.args[0],e.args[1])
     exit("DB error")

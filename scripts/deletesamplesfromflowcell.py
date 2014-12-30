@@ -195,7 +195,6 @@ print "Will delete sample (if not present on other flowcells)"
 for f in smpls:
   query = """ SELECT unaligned_id, flowcellname FROM flowcell, unaligned 
                      WHERE flowcell.flowcell_id = unaligned.flowcell_id AND sample_id = '{0}' """.format(f)
-#  print query
   cursor.execute(query)
   data = cursor.fetchall()
   if data:  
@@ -264,6 +263,31 @@ for f in sprtps:
     exit("MySQL warning")
   cnx.commit()
   print "Supportparams id " + str(f) + " deleted "
+
+print "Will delete project (if no samples left in it)"
+for f in projs:
+  query = """ SELECT samplename FROM sample 
+              WHERE project_id = '{0}' """.format(f)
+  cursor.execute(query)
+  data = cursor.fetchall()
+  if data:  
+    for ff in data:
+      if (f != 2):
+        print "Found project_id: "+str(f)+"   for sample: "+ff[0]
+  else:
+    try:
+      cursor.execute(""" DELETE FROM project WHERE project_id = '{0}' """.format(f))
+    except mysql.IntegrityError, e:      
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("DB error")
+    except mysql.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("Syntax error")
+    except mysql.Warning, e:
+      print "Warning %d: %s" % (e.args[0],e.args[1])
+      exit("MySQL warning")
+    cnx.commit()
+    print "Project id " + str(f) + " [no samples found] - deleted "
 
 cnx.commit()
 cursor.close()

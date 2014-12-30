@@ -126,7 +126,7 @@ print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "")
-print "\tFound " + str(len(projs)) + " supportps, " + str(projs).replace("L", "")
+print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
 
 _samples_ = str(smpls).replace('L', "").replace('[', "").replace(']', "")
 _unalgns_ = str(unals).replace('L', "").replace('[', "").replace(']', "")

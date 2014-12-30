@@ -231,7 +231,7 @@ for f in FCs:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "FC " + str(f) + " deleted "
+  print "FC " + str(f) + " deleted [if found] "
 
 print "Will delete datasource"
 for f in srid:
@@ -247,15 +247,12 @@ for f in srid:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "Datasource id " + str(f) + " deleted "
+  print "Datasource id " + str(f) + " deleted [if found] "
 
 print "Will delete supportparams"
 for f in sprtids:
   try:
     cursor.execute(""" DELETE FROM supportparams WHERE supportparams_id = '{0}' """.format(f))
-    data = cursor.fetchone()
-    if data[0] == 0:
-      print "No entry deleted!"
   except mysql.IntegrityError, e:
     print "Error %d: %s" % (e.args[0],e.args[1])
     exit("DB error")
@@ -266,7 +263,7 @@ for f in sprtids:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
   cnx.commit()
-  print "Supportparams id " + str(f) + " deleted "
+  print "Supportparams id " + str(f) + " deleted [if found] "
 
 print "Will delete project (if no samples left in it)"
 for f in projs:

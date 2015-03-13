@@ -71,7 +71,7 @@ query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcellname, comman
 cursor.execute(query2)
 for row in cursor.fetchall():
   clas = row[3].split('\n')
-  isbm = False:
+  isbm = False
   for cla in clas:
     if isbm:
       basemask = cla

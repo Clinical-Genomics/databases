@@ -54,16 +54,16 @@ else:
          +str(major)+"."+str(minor)+"."+str(patch))
 
 print "Database: "+params['STATSDB']
-yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
-if yourreply != "YES":
-  exit()
+#yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
+#if yourreply != "YES":
+#  exit()
 
 query1 = """ SELECT datasource_id, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
              unaligned_id, COUNT(DISTINCT sample.sample_id)
              FROM sample,project,unaligned 
              WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
              
-query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcellname, commandline
+query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcell_id, commandline
              FROM flowcell, datasource, unaligned, supportparams 
              WHERE unaligned.flowcell_id = flowcell.flowcell_id 
              AND supportparams.supportparams_id = datasource.supportparams_id
@@ -79,10 +79,8 @@ for row in cursor.fetchall():
     if cla == "  '--use-bases-mask',":
       isbm = True
   print row[0], row[1], row[2], basemask
-#  if row[5] > 1:
-#    ids = row[2].split(',')
-#    for id in ids:
-#      query2 = " UPDATE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
+  query3 = (" INSERT INTO demux ('flowcell_id', 'basemask') VALUES (%s, %s) ", (row[2], basemask) ) 
+  print query3
 #      try:
 #        cursor.execute(query2)
 #      except mysql.IntegrityError, e:

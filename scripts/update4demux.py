@@ -63,7 +63,7 @@ query1 = """ SELECT datasource_id, samplename, GROUP_CONCAT(DISTINCT sample.samp
              FROM sample,project,unaligned 
              WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
              
-query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcell_id, commandline
+query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcell.flowcell_id, commandline
              FROM flowcell, datasource, unaligned, supportparams 
              WHERE unaligned.flowcell_id = flowcell.flowcell_id 
              AND supportparams.supportparams_id = datasource.supportparams_id

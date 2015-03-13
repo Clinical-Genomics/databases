@@ -85,16 +85,16 @@ for row in cursor.fetchall():
   print query3
   try:
     cursor.execute(query3)
-    except mysql.IntegrityError, e:
-      print "Error %d: %s" % (e.args[0],e.args[1])
-      exit("DB error")
-    except mysql.Error, e:
-      print "Error %d: %s" % (e.args[0],e.args[1])
-      exit("Syntax error")
-    except mysql.Warning, e:
-      print "Warning %d: %s" % (e.args[0],e.args[1])
-      exit("MySQL warning")
-    print str(cursor.lastrowid)
+  except mysql.IntegrityError, e:
+    print "Error %d: %s" % (e.args[0],e.args[1])
+    exit("DB error")
+  except mysql.Error, e:
+    print "Error %d: %s" % (e.args[0],e.args[1])
+    exit("Syntax error")
+  except mysql.Warning, e:
+    print "Warning %d: %s" % (e.args[0],e.args[1])
+    exit("MySQL warning")
+  print str(cursor.lastrowid)
 #      cnx.commit()
 #      print "done "+query2
   query4 = " UPDATE unaligned SET demux_id = '"+str(cursor.lastrowid)+"' WHERE unaligned_id = '"+str(row[1])+"' " 

@@ -58,28 +58,35 @@ yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
 if yourreply != "YES":
   exit()
 
-query1 = """ SELECT projectname, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
+query1 = """ SELECT datasource_id, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
              unaligned_id, COUNT(DISTINCT sample.sample_id)
              FROM sample,project,unaligned 
              WHERE project.project_id = sample.project_id AND unaligned.sample_id = sample.sample_id GROUP BY samplename """
-cursor.execute(query1)
+             
+query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcellname, commandline
+             FROM flowcell, datasource, unaligned, supportparams 
+             WHERE unaligned.flowcell_id = flowcell.flowcell_id 
+             AND supportparams.supportparams_id = datasource.supportparams_id
+             AND flowcell.datasource_id = datasource.datasource_id """
+cursor.execute(query2)
 for row in cursor.fetchall():
-  if row[5] > 1:
-    ids = row[2].split(',')
-    for id in ids:
-      query2 = " UPDATE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
-      try:
-        cursor.execute(query2)
-      except mysql.IntegrityError, e:
-        print "Error %d: %s" % (e.args[0],e.args[1])
-        exit("DB error")
-      except mysql.Error, e:
-        print "Error %d: %s" % (e.args[0],e.args[1])
-        exit("Syntax error")
-      except mysql.Warning, e:
-        print "Warning %d: %s" % (e.args[0],e.args[1])
-        exit("MySQL warning")
-      cnx.commit()
-      print "done "+query2
+  print row[0], row[1], row[2], row[3]
+#  if row[5] > 1:
+#    ids = row[2].split(',')
+#    for id in ids:
+#      query2 = " UPDATE unaligned SET sample_id = '"+str(row[3])+"' WHERE sample_id IN ("+row[2]+") " 
+#      try:
+#        cursor.execute(query2)
+#      except mysql.IntegrityError, e:
+#        print "Error %d: %s" % (e.args[0],e.args[1])
+#        exit("DB error")
+#      except mysql.Error, e:
+#        print "Error %d: %s" % (e.args[0],e.args[1])
+#        exit("Syntax error")
+#      except mysql.Warning, e:
+#        print "Warning %d: %s" % (e.args[0],e.args[1])
+#        exit("MySQL warning")
+#      cnx.commit()
+#      print "done "+query2
 
 exit(0)

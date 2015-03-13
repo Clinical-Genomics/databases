@@ -74,7 +74,7 @@ for row in cursor.fetchall():
   isbm = False
   for cla in clas:
     if isbm:
-      basemask = cla
+      bmask = cla
       isbm = False
     if cla == "  '--use-bases-mask',":
       isbm = True

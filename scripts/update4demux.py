@@ -81,23 +81,33 @@ for row in cursor.fetchall():
   print row[0], row[1], row[2], bmask
   basem = bmask.split("'")
   basemask = basem[1]
-  query3 = " INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES ('"+str(row[2])+"', '"+str(row[0])+"', '"+basemask+"') " 
-  print query3
-  try:
-    cursor.execute(query3)
-  except mysql.IntegrityError, e:
-    print "Error %d: %s" % (e.args[0],e.args[1])
-    exit("DB error")
-  except mysql.Error, e:
-    print "Error %d: %s" % (e.args[0],e.args[1])
-    exit("Syntax error")
-  except mysql.Warning, e:
-    print "Warning %d: %s" % (e.args[0],e.args[1])
-    exit("MySQL warning")
-  print str(cursor.lastrowid)
+  query0 = (" SELECT demux_id FROM demux WHERE flowcell_id = '"+str(row[2])+"' AND datasource_id = '"+str(row[0])+"' 
+            AND basemask = '"+basemask+"' ")
+  cursor.execute(query0)
+  dmux = 0
+  if not cursor.fetchone():
+    query3 = (" INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES 
+               ('" + str(row[2]) + "', '" + str(row[0]) + "', '" + basemask + "') " )
+    print query3
+    try:
+      cursor.execute(query3)
+    except mysql.IntegrityError, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("DB error")
+    except mysql.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("Syntax error")
+    except mysql.Warning, e:
+      print "Warning %d: %s" % (e.args[0],e.args[1])
+      exit("MySQL warning")
+    print str(cursor.lastrowid)
+    dmux = cursor.lastrowid
 #      cnx.commit()
 #      print "done "+query2
-  query4 = " UPDATE unaligned SET demux_id = '"+str(cursor.lastrowid)+"' WHERE unaligned_id = '"+str(row[1])+"' " 
+  else:
+    cursor.execute(query0)
+    dmux = cursor.fetchone()[0]
+  query4 = " UPDATE unaligned SET demux_id = '"+str(dmux)+"' WHERE unaligned_id = '"+str(row[1])+"' " 
   print query4
   try:
     cursor.execute(query4)

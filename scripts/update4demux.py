@@ -70,7 +70,8 @@ query2 = """ SELECT datasource.datasource_id, unaligned_id, flowcellname, comman
              AND flowcell.datasource_id = datasource.datasource_id """
 cursor.execute(query2)
 for row in cursor.fetchall():
-  print row[0], row[1], row[2], row[3]
+  clas = row[3].split('\n')
+  print row[0], row[1], row[2], clas[2]
 #  if row[5] > 1:
 #    ids = row[2].split(',')
 #    for id in ids:

@@ -86,8 +86,8 @@ for row in cursor.fetchall():
   cursor.execute(query0)
   dmux = 0
   if not cursor.fetchone():
-    query3 = (" INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES 
-               ('" + str(row[2]) + "', '" + str(row[0]) + "', '" + basemask + "') " )
+    query3 = (" INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES ('" +
+               str(row[2]) + "', '" + str(row[0]) + "', '" + basemask + "') " )
     print query3
     try:
       cursor.execute(query3)

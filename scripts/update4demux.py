@@ -79,7 +79,7 @@ for row in cursor.fetchall():
     if cla == "  '--use-bases-mask',":
       isbm = True
   print row[0], row[1], row[2], basemask
-  query3 = " INSERT INTO demux ('flowcell_id', 'basemask') VALUES ("'+row[2]+'", "'+basemask+'") " 
+  query3 = " INSERT INTO demux ('flowcell_id', 'basemask') VALUES ('"+row[2]+"', '"+basemask+"') " 
   print query3
 #      try:
 #        cursor.execute(query2)

@@ -83,20 +83,21 @@ for row in cursor.fetchall():
   basemask = basem[1]
   query3 = " INSERT INTO demux ('flowcell_id', 'basemask') VALUES ('"+str(row[2])+"', '"+basemask+"') " 
   print query3
-  query4 = " UPDATE unaligned SET demux_id = latestid WHERE unaligned_id = '"+str(row[1])+"' " 
-  print query4
-#      try:
-#        cursor.execute(query2)
-#      except mysql.IntegrityError, e:
-#        print "Error %d: %s" % (e.args[0],e.args[1])
-#        exit("DB error")
-#      except mysql.Error, e:
-#        print "Error %d: %s" % (e.args[0],e.args[1])
-#        exit("Syntax error")
-#      except mysql.Warning, e:
-#        print "Warning %d: %s" % (e.args[0],e.args[1])
-#        exit("MySQL warning")
+  try:
+    cursor.execute(query3)
+    except mysql.IntegrityError, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("DB error")
+    except mysql.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+      exit("Syntax error")
+    except mysql.Warning, e:
+      print "Warning %d: %s" % (e.args[0],e.args[1])
+      exit("MySQL warning")
+    print str(cursor.lastrowid)
 #      cnx.commit()
 #      print "done "+query2
+  query4 = " UPDATE unaligned SET demux_id = '"+str(cursor.lastrowid)+"' WHERE unaligned_id = '"+str(row[1])+"' " 
+  print query4
 
 exit(0)

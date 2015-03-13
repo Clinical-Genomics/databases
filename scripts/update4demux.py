@@ -81,8 +81,8 @@ for row in cursor.fetchall():
   print row[0], row[1], row[2], bmask
   basem = bmask.split("'")
   basemask = basem[1]
-  query0 = (" SELECT demux_id FROM demux WHERE flowcell_id = '"+str(row[2])+"' AND datasource_id = '"+str(row[0])+"' 
-            AND basemask = '"+basemask+"' ")
+  query0 = (" SELECT demux_id FROM demux WHERE flowcell_id = '" + str(row[2]) + "' AND datasource_id = '" + str(row[0]) + 
+             "' AND basemask = '" + basemask + "' ")
   cursor.execute(query0)
   dmux = 0
   if not cursor.fetchone():

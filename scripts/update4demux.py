@@ -83,7 +83,7 @@ for row in cursor.fetchall():
   basemask = basem[1]
   query3 = " INSERT INTO demux ('flowcell_id', 'basemask') VALUES ('"+str(row[2])+"', '"+basemask+"') " 
   print query3
-  query4 = " UPDATE unaligned SET demux_id = latestid WHERE unaligned_id = "'+row[1]+"' " 
+  query4 = " UPDATE unaligned SET demux_id = latestid WHERE unaligned_id = '"+row[1]+"' " 
   print query4
 #      try:
 #        cursor.execute(query2)

@@ -81,7 +81,7 @@ for row in cursor.fetchall():
   print row[0], row[1], row[2], bmask
   basem = bmask.split("'")
   basemask = basem[1]
-  query3 = " INSERT INTO demux (flowcell_id, basemask) VALUES ('"+str(row[2])+"', '"+basemask+"') " 
+  query3 = " INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES ('"+str(row[2])+"', '"+str(row[0])+"', '"+basemask+"') " 
   print query3
   try:
     cursor.execute(query3)

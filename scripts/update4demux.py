@@ -86,8 +86,8 @@ for row in cursor.fetchall():
   cursor.execute(query0)
   dmux = 0
   if not cursor.fetchone():
-    query3 = (" INSERT INTO demux (flowcell_id, datasource_id, basemask) VALUES ('" +
-               str(row[2]) + "', '" + str(row[0]) + "', '" + basemask + "') " )
+    query3 = (" INSERT INTO demux (flowcell_id, datasource_id, basemask, time) VALUES ('" +
+               str(row[2]) + "', '" + str(row[0]) + "', '" + basemask + "', NOW()) " )
     print query3
     try:
       cursor.execute(query3)
@@ -120,7 +120,6 @@ for row in cursor.fetchall():
   except mysql.Warning, e:
     print "Warning %d: %s" % (e.args[0],e.args[1])
     exit("MySQL warning")
-  print str(cursor.lastrowid)
   cnx.commit()
 #      print "done "+query2
 

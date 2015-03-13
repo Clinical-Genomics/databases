@@ -78,9 +78,13 @@ for row in cursor.fetchall():
       isbm = False
     if cla == "  '--use-bases-mask',":
       isbm = True
-  print row[0], row[1], row[2], basemask
+  print row[0], row[1], row[2], bmask
+  basem = bmask.split("'")
+  basemask = basem[1]
   query3 = " INSERT INTO demux ('flowcell_id', 'basemask') VALUES ('"+str(row[2])+"', '"+basemask+"') " 
   print query3
+  query4 = " UPDATE unaligned SET demux_id = latestid WHERE unaligned_id = "'+row[1]+"' " 
+  print query4
 #      try:
 #        cursor.execute(query2)
 #      except mysql.IntegrityError, e:

@@ -47,7 +47,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       TRUNCATE(mean_quality_score,2) AS meanq, flowcell.flowcell_id AS flcid, sample.sample_id AS smpid, 
       unaligned.unaligned_id AS unalid, datasource.datasource_id AS dsid, datasource.document_path AS docpath,
       supportparams.supportparams_id AS supportid, project.project_id AS prjid, supportparams.document_path AS suppath,
-      basemask, demux_id AS demuxid
+      basemask, demux.demux_id AS demuxid
       FROM sample, flowcell, unaligned, project, datasource, supportparams, demux
       WHERE sample.sample_id     = unaligned.sample_id
       AND   flowcell.flowcell_id = demux.flowcell_id

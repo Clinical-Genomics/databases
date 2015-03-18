@@ -61,6 +61,6 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
     allhits = dbc.generalquery(totalquery)
     for hit in allhits:
-      print hit['smp'], hit['basemask']
+      print hit['smp'], hit['basemask'], lane
 
 

@@ -168,7 +168,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
       if dmxfound:
         print("\tWill delete demux id " + str(dmxfound))
       else:
-        exit("\n\tDemux id " + yourreply + " not found, will exit!")
+        print ("\n\tDemux id " + yourreply + " not found, will exit!")
+        exit()
     else:
       print "\tWill delete entire flowcell "
 
@@ -176,7 +177,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
     if secondreply == "YES":
       print "\n\t" + secondreply
     else:
-      exit("\tnehe, will exit . .\n")
+      exit ("\tnehe, will exit . .\n")
     thirdreply = raw_input("\tARE YOU sure, this is the last warning? YES/[no] ")
     if thirdreply == "YES":
       print "\n\t" + thirdreply

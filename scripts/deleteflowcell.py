@@ -82,7 +82,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print (row['prj'] + "\t" + row['flc'] + "\t" + row['basemask'] + "\t" + row['smp'] + "\t" + str(row['lane']) + "\t" +
              str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
              str(row['dsid']) + "\t" + str(row['prjid']))
-      print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row[supportid'])
+      print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row['supportid'])
       try:
         exist = FCs.index(row['flcid'])
       except ValueError:

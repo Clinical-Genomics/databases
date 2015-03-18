@@ -162,6 +162,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
     if not yourreply == "A":
       dmxfound = False
       for dmx in dmxs:
+        print dmx
         if dmx == yourreply:
           dmxfound = dmx
       if dmxfound:

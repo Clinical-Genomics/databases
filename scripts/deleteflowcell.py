@@ -89,7 +89,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       idcnt += 1
       ids[idcnt] = { 'demuxid': row['demuxid'], 'unalid': row['unalid'], 'smpid': row['smpid'], 
                      'prjid': row['prjid'], 'flcid': row['flcid'], 'dsid': row['dsid'], 'supportid': row['supportid'] }
-    try:
+      try:
         exist = FCs.index(row['flcid'])
       except ValueError:
         FCs.append(row['flcid'])

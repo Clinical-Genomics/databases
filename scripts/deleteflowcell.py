@@ -57,7 +57,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       AND   datasource.supportparams_id = supportparams.supportparams_id
       AND   flowcellname = '""" + fcname + """'
       ORDER BY flowcellname, demuxid, sample.samplename, lane """
-    print totalquery
+#    print totalquery
 
     allhits = dbc.generalquery(totalquery)
 #    for hit in allhits:
@@ -145,12 +145,38 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 for i in range(len(dmxs)):
-  print dmxs[i], bms[i]
+  print "\t\t" + dmxs[i], bms[i]
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
 print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
 print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
+
+
+print ("\n\t")
+for i in range(len(dmxs)):
+  print ("\tDo you want to delete [" + dmxs[i] + "]  - " + bms[i])
+print ("\tDo you want to delete the entire flowcell A?")
+yourreply = raw_input("\t\tGive corresponding 'basemask no' or 'A' for all ")
+
+print yourreply
+
+if yourreply == "YES":
+  print "\n\t" + yourreply
+  yourreply = "no"
+  yourreply = raw_input("\tARE YOU sure the data will now be deleted? YES/[no] ")
+  if yourreply == "YES":
+    print "\n\t" + yourreply
+  else:
+    print "\tnehe, will exit . .\n"
+    cursor.close()
+    cnx.close()
+    exit(0)
+else:
+  print "\tnehe, will exit . .\n"
+  cursor.close()
+  cnx.close()
+  exit(0)
 
 
 

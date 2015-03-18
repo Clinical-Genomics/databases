@@ -87,7 +87,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       else:
         "Already added"
       try:
-        exist = smpls.index(row['smpid])
+        exist = smpls.index(row['smpid'])
       except ValueError:
         smpls.append(row['smpid'])
       else:

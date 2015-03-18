@@ -35,7 +35,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
     def deletevalues(tableiddict):
       
-      stepone = dbc.sqldelete(unalignedid)
+      stepone = dbc.sqldelete(tableiddict['unalid'])
       if stepone:
         print stepone
 

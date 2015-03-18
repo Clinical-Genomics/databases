@@ -166,9 +166,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if dmx == int(yourreply):
           dmxfound = dmx
       if dmxfound:
-        print "\tWill delete demux id " + dmxfound
+        print("\tWill delete demux id " + str(dmxfound))
       else:
-        print("\n\tDemux id " + yourreply + " not found, will exit!")
+        exit("\n\tDemux id " + yourreply + " not found, will exit!")
     else:
       print "\tWill delete entire flowcell "
 

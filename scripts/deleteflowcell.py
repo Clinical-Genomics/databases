@@ -26,3 +26,19 @@ else:
     exit(1)
 pars = db.readconfig(configfile)
 
+with db.create_tunnel(pars['TUNNELCMD']):
+
+  with db.dbconnect(pars['CLINICALDBHOST'], pars['CLINICALDBPORT'], pars['STATSDB'], 
+                        pars['CLINICALDBUSER'], pars['CLINICALDBPASSWD']) as dbc:
+
+    ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])
+
+    if not ver == 'True':
+      print "Wrong db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
+      exit(0) 
+    else:
+      print "Correct db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
+
+
+
+

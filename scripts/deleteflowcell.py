@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #
 import sys
+import os
 import time
 from access import db
 

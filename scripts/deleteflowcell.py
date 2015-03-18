@@ -42,15 +42,17 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print "Correct db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
 
     print fcname
-    totalquery = """ SELECT project.projectname, flowcell.flowcellname, sample.samplename, unaligned.lane, 
-      unaligned.readcounts, unaligned.yield_mb, TRUNCATE(q30_bases_pct,2), TRUNCATE(mean_quality_score,2),
-      flowcell.flowcell_id, sample.sample_id, unaligned.unaligned_id, datasource.datasource_id, datasource.document_path,
-      supportparams.supportparams_id, project.project_id, supportparams.document_path
-      FROM sample, flowcell, unaligned, project, datasource, supportparams
+    totalquery = """ SELECT project.projectname AS prj, flowcell.flowcellname AS flc, sample.samplename AS smp, 
+      unaligned.lane AS lane, unaligned.readcounts AS rc, unaligned.yield_mb AS yield, TRUNCATE(q30_bases_pct,2) AS q30, 
+      TRUNCATE(mean_quality_score,2) AS meanq, flowcell.flowcell_id AS flcid, sample.sample_id AS smpid, 
+      unaligned.unaligned_id AS unalid, datasource.datasource_id AS dsid, datasource.document_path AS docpath,
+      supportparams.supportparams_id AS supportid, project.project_id AS prjid, supportparams.document_path AS suppath
+      FROM sample, flowcell, unaligned, project, datasource, supportparams, demux
       WHERE sample.sample_id     = unaligned.sample_id
-      AND   flowcell.flowcell_id = unaligned.flowcell_id
+      AND   flowcell.flowcell_id = demux.flowcell_id
+      AND   demux.demux_id = unaligned.demux_id
       AND   sample.project_id    = project.project_id 
-      AND   datasource.datasource_id = flowcell.datasource_id
+      AND   datasource.datasource_id = demux.datasource_id
       AND   datasource.supportparams_id = supportparams.supportparams_id
       AND   flowcellname = '""" + fcname + """'
       ORDER BY flowcellname, sample.samplename, lane """

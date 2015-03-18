@@ -145,7 +145,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
 for i in range(len(dmxs)):
-  print "\t\t" + str(dmxs[i]) + "  " + bms[i]
+  print "\t demux" + str(dmxs[i]) + "  " + bms[i]
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
@@ -157,7 +157,7 @@ print ("\n\t")
 for i in range(len(dmxs)):
   print ("\tDo you want to delete [" + str(dmxs[i]) + "]  - " + bms[i])
 print ("\tDo you want to delete the entire flowcell A?")
-yourreply = raw_input("\t\tGive corresponding 'basemask no' or 'A' for all ")
+yourreply = raw_input("\tGive corresponding 'basemask no' or 'A' for all ")
 
 print yourreply
 

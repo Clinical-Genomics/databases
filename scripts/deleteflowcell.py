@@ -163,7 +163,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       dmxfound = False
       for dmx in dmxs:
         print dmx
-        if dmx == yourreply:
+        if dmx == int(yourreply):
           dmxfound = dmx
       if dmxfound:
         print "\tWill delete demux id " + dmxfound

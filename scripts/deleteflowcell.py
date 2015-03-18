@@ -143,40 +143,42 @@ with db.create_tunnel(pars['TUNNELCMD']):
       else:
         "Already added"
 
-print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
-for i in range(len(dmxs)):
-  print "\tdemux " + str(dmxs[i]) + "  " + bms[i]
-print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
-print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
-print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
-print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
-print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
+    print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
+    for i in range(len(dmxs)):
+      print "\tdemux " + str(dmxs[i]) + "  " + bms[i]
+    print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
+    print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
+    print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
+    print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
+    print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
 
+    print ("\n\t")
+    for i in range(len(dmxs)):
+      print ("\tDo you want to delete [" + str(dmxs[i]) + "]  - " + bms[i])
+    print ("\tDo you want to delete the entire flowcell A?")
+    yourreply = raw_input("\n\tGive corresponding 'basemask no' or 'A' for all: ")
 
-print ("\n\t")
-for i in range(len(dmxs)):
-  print ("\tDo you want to delete [" + str(dmxs[i]) + "]  - " + bms[i])
-print ("\tDo you want to delete the entire flowcell A?")
-yourreply = raw_input("\n\tGive corresponding 'basemask no' or 'A' for all: ")
+    print "\tYou said " + yourreply
+    if not yourreply == A:
+      try:
+        exist = dmxs.index(yourreply)
+        print "\tWill delete demux id " + yourreply
+      except ValueError:
+        exit("\n\tDemux id " + yourreply + " not found, will exit!")
+    else:
+      print "\tWill delete entire flowcell "
 
-print yourreply
-
-if yourreply == "YES":
-  print "\n\t" + yourreply
-  yourreply = "no"
-  yourreply = raw_input("\tARE YOU sure the data will now be deleted? YES/[no] ")
-  if yourreply == "YES":
-    print "\n\t" + yourreply
-  else:
-    print "\tnehe, will exit . .\n"
-    cursor.close()
-    cnx.close()
-    exit(0)
-else:
-  print "\tnehe, will exit . .\n"
-  cursor.close()
-  cnx.close()
-  exit(0)
-
+    secondreply = raw_input("\tARE YOU sure, the data will now be deleted? YES/[no] ")
+    if secondreply == "YES":
+      print "\n\t" + secondreply
+    else:
+      exit("\tnehe, will exit . .\n")
+    thirdreply = raw_input("\tARE YOU sure, thisisi the last warning? YES/[no] ")
+    if thirdreply == "YES":
+      print "\n\t" + thirdreply
+    else:
+      exit("\tnehe, will exit . .\n")
+ 
+ 
 
 

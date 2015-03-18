@@ -56,7 +56,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       AND   datasource.datasource_id = demux.datasource_id
       AND   datasource.supportparams_id = supportparams.supportparams_id
       AND   flowcellname = '""" + fcname + """'
-      ORDER BY flowcellname, sample.samplename, lane """
+      ORDER BY flowcellname, demuxid, sample.samplename, lane """
     print totalquery
 
     allhits = dbc.generalquery(totalquery)
@@ -71,6 +71,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
     sprtps = []
     sprtids = []
     projs = []
+    dmxs = []
+    bms = []
 
     if allhits:
       print "Project\tFlowcell\tbasemask\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id\tproject_id"
@@ -128,8 +130,22 @@ with db.create_tunnel(pars['TUNNELCMD']):
         sprtps.append(row['suppath'])
       else:
         "Already added"
+      try:
+        exist = dmxs.index(row['demuxid'])
+      except ValueError:
+        dmxs.append(row['demuxid'])
+      else:
+        "Already added"
+      try:
+        exist = bms.index(row['basemask'])
+      except ValueError:
+        bms.append(row['basemask'])
+      else:
+        "Already added"
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
+for i in range(1, len(dmxs)+1):
+  print dmxs[i], bms[i]
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
 print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")

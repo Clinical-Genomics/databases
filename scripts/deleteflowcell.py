@@ -5,23 +5,23 @@ import time
 from access import db
 
 """Removes flowcell/demux from db.
-  usage: deleteflowcell.py  <flowcellname> <samplesheetcsv> <config_file:optional>
+  usage: deleteflowcell.py  <flowcellname> <config_file:optional>
+  Will list all demux from flowcell allowing user to chose which ones to delete
 Args:
-  BASEDIRECTORYforUNALIGNED (str): path to demux directory
-  UNALIGNEDsubdir (str): subdir with demux data structure
-  pathtosamplesheetcsv (str): absolute path to samplesheet
+  flowcellname (str): name of flowcell containing demux stats to delete
 Returns:
-  Outputs what data have been added to database including row id for each table
+  Prints out all changes to the database
 """
 
-if (len(sys.argv)>4):
-  configfile = sys.argv[4]
+if (len(sys.argv)>2):
+  configfile = sys.argv[2]
   if not os.path.isfile(configfile):
     exit("Bad configfile")
 else:
-  if len(sys.argv) == 4:
+  if len(sys.argv) == 2:
     configfile = 'None'
   else:
-    print "usage: parsedemux.py <BASEDIRECTORYforUNALIGNED> <UNALIGNEDsubdir> <samplesheetcsv> <config_file:optional>"
+    print "usage: deleteflowcell.py <flowcellname> <config_file:optional>"
     exit(1)
 pars = db.readconfig(configfile)
+

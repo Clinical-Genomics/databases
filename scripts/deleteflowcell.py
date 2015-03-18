@@ -1,15 +1,11 @@
-
 #!/usr/bin/python
 #
 import sys
-import os
-import glob
 import time
-import re
 from access import db
 
-"""Parses demux stats to db.
-  usage: parsedemux.py  <BASEDIRECTORYforUNALIGNED> <UNALIGNEDsubdir> <samplesheetcsv> <config_file:optional>
+"""Removes flowcell/demux from db.
+  usage: deleteflowcell.py  <flowcellname> <samplesheetcsv> <config_file:optional>
 Args:
   BASEDIRECTORYforUNALIGNED (str): path to demux directory
   UNALIGNEDsubdir (str): subdir with demux data structure

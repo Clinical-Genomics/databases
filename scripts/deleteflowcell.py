@@ -60,7 +60,81 @@ with db.create_tunnel(pars['TUNNELCMD']):
     print totalquery
 
     allhits = dbc.generalquery(totalquery)
-    for hit in allhits:
-      print hit['smp'], hit['basemask'], hit['lane'], hit['demuxid']
+#    for hit in allhits:
+#      print hit['smp'], hit['basemask'], hit['lane'], hit['demuxid']
+
+    FCs = []
+    smpls = []
+    unals = []
+    srcs = []
+    srid = []
+    sprtps = []
+    sprtids = []
+    projs = []
+
+    if allhits:
+      print "Project\tFlowcell\tbasemask\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id\tproject_id"
+    else:
+      print "Flowcell " + fcname + " not found . . ."
+    for row in allhits:
+      print (row['prj'] + "\t" + row['flc'] + "\t" + row['basemask'] + "\t" + row['smp'] + "\t" + str(row['lane']) + "\t" +
+             str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
+             str(row['dsid']) + "\t" + str(row['prjid']))
+      try:
+        exist = FCs.index(row['flcid'])
+      except ValueError:
+        FCs.append(row['flcid'])
+      else:
+        "Already added"
+      try:
+        exist = smpls.index(row['smpid])
+      except ValueError:
+        smpls.append(row['smpid'])
+      else:
+        "Already added"
+      try:
+        exist = unals.index(row['unalid'])
+      except ValueError:
+        unals.append(row['unalid'])
+      else:
+        "Already added"
+      try:
+        exist = srcs.index(row['docpath'])
+      except ValueError:
+        srcs.append(row['docpath'])
+      else:
+        "Already added"
+      try:
+        exist = srid.index(row['dsid'])
+      except ValueError:
+        srid.append(row['dsid'])
+      else:
+        "Already added"
+      try:
+        exist = sprtids.index(row['supportid'])
+      except ValueError:
+        sprtids.append(row['supportid'])
+      else:
+        "Already added"
+      try:
+        exist = projs.index(row['prjid'])
+      except ValueError:
+        projs.append(row['prjid'])
+      else:
+        "Already added"
+      try:
+        exist = sprtps.index(row['suppath'])
+      except ValueError:
+        sprtps.append(row['suppath'])
+      else:
+        "Already added"
+
+print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
+print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
+print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")
+print "\tFound " + str(len(srcs)) + " sources, " + str(srcs).replace("L", "") + " ids " + str(srid).replace("L", "")
+print "\tFound " + str(len(sprtps)) + " supportps, " + str(sprtps).replace("L", "") + " ids " + str(sprtids).replace("L", "")
+print "\tFound " + str(len(projs)) + " projs, " + str(projs).replace("L", "")
+
 
 

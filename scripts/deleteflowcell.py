@@ -144,7 +144,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         "Already added"
 
 print "\n\tFound " + str(len(FCs)) + " flowcells, " + str(FCs).replace("L", "")
-for i in range(1, len(dmxs)+1):
+for i in range(len(dmxs)):
   print dmxs[i], bms[i]
 print "\tFound " + str(len(unals)) + " unaligned rows, " + str(unals).replace("L", "")
 print "\tFound " + str(len(smpls)) + " samples, " + str(smpls).replace("L", "")

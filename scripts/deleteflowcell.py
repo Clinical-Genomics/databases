@@ -159,7 +159,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
     yourreply = raw_input("\n\tGive corresponding 'basemask no' or 'A' for all: ")
 
     print "\tYou said " + yourreply
-    if not yourreply == A:
+    if not yourreply == "A":
       try:
         exist = dmxs.index(yourreply)
         print "\tWill delete demux id " + yourreply

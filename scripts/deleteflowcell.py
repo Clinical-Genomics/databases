@@ -73,6 +73,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
     projs = []
     dmxs = []
     bms = []
+    
+    ids = {}
+    idcnt = 1
 
     if allhits:
       print "Project\tFlowcell\tbasemask\tSample\tLane\tRead counts\tyieldMB\t%Q30\tMeanQscore\tsource_id\tproject_id"
@@ -83,7 +86,10 @@ with db.create_tunnel(pars['TUNNELCMD']):
              str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
              str(row['dsid']) + "\t" + str(row['prjid']))
       print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row['supportid'])
-      try:
+      idcnt += 1
+      ids[idcnt] = { 'demuxid': row['demuxid'], 'unalid': row['unalid'], 'smpid': row['smpid'], 
+                     'prjid': row['prjid'], 'flcid': row['flcid'], 'dsid': row['dsid'], 'supportid': row['supportid'] }
+    try:
         exist = FCs.index(row['flcid'])
       except ValueError:
         FCs.append(row['flcid'])
@@ -185,6 +191,6 @@ with db.create_tunnel(pars['TUNNELCMD']):
     else:
       exit("\tnehe, will exit . .\n")
  
- 
-
+ for val in ids:
+   print val
 

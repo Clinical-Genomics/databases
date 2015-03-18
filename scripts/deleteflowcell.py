@@ -82,6 +82,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print (row['prj'] + "\t" + row['flc'] + "\t" + row['basemask'] + "\t" + row['smp'] + "\t" + str(row['lane']) + "\t" +
              str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
              str(row['dsid']) + "\t" + str(row['prjid']))
+      print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row[supportid'])
       try:
         exist = FCs.index(row['flcid'])
       except ValueError:
@@ -155,14 +156,14 @@ with db.create_tunnel(pars['TUNNELCMD']):
     print ("\n\t")
     for i in range(len(dmxs)):
       print ("\tDo you want to delete [" + str(dmxs[i]) + "]  - " + bms[i])
-    print ("\tDo you want to delete the entire flowcell A?")
+    print ("\tDo you want to delete the entire flowcell?")
     yourreply = raw_input("\n\tGive corresponding 'basemask no' or 'A' for all: ")
 
     print "\tYou said " + yourreply
     if not yourreply == "A":
       dmxfound = False
       for dmx in dmxs:
-        print dmx
+        print ("\t" + dmx)
         if dmx == int(yourreply):
           dmxfound = dmx
       if dmxfound:

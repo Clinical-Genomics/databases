@@ -85,7 +85,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print (row['prj'] + "\t" + row['flc'] + "\t" + row['basemask'] + "\t" + row['smp'] + "\t" + str(row['lane']) + "\t" +
              str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
              str(row['dsid']) + "\t" + str(row['prjid']))
-      print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row['supportid'])
+#      print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row['supportid'])
       ids[idcnt] = { 'demuxid': row['demuxid'], 'unalid': row['unalid'], 'smpid': row['smpid'], 
                      'prjid': row['prjid'], 'flcid': row['flcid'], 'dsid': row['dsid'], 'supportid': row['supportid'] }
       idcnt += 1
@@ -185,12 +185,18 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print "\n\t" + secondreply
     else:
       exit ("\tnehe, will exit . .\n")
+
+    for val in ids:
+      if not yourreply == "A":
+        if ids[val]['demuxid'] == dmxfound:
+          print "D", str(val), str(ids[val])
+      else:
+        print val, ids[val]
+      
     thirdreply = raw_input("\tARE YOU sure, this is the last warning? YES/[no] ")
     if thirdreply == "YES":
       print "\n\t" + thirdreply
     else:
       exit("\tnehe, will exit . .\n")
 
-for val in ids:
-   print val, ids[val]
 

@@ -86,9 +86,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
              str(row['rc']) + "\t" + str(row['yield']) + "\t" + str(row['q30']) + "\t" + str(row['meanq']) + "\t" + 
              str(row['dsid']) + "\t" + str(row['prjid']))
       print (row['demuxid'], row['unalid'], row['smpid'], row['prjid'], row['flcid'], row['dsid'], row['supportid'])
-      idcnt += 1
       ids[idcnt] = { 'demuxid': row['demuxid'], 'unalid': row['unalid'], 'smpid': row['smpid'], 
                      'prjid': row['prjid'], 'flcid': row['flcid'], 'dsid': row['dsid'], 'supportid': row['supportid'] }
+      idcnt += 1
       try:
         exist = FCs.index(row['flcid'])
       except ValueError:
@@ -192,5 +192,5 @@ with db.create_tunnel(pars['TUNNELCMD']):
       exit("\tnehe, will exit . .\n")
 
 for val in ids:
-   print val
+   print val, ids[val]
 

@@ -46,7 +46,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
       unaligned.lane AS lane, unaligned.readcounts AS rc, unaligned.yield_mb AS yield, TRUNCATE(q30_bases_pct,2) AS q30, 
       TRUNCATE(mean_quality_score,2) AS meanq, flowcell.flowcell_id AS flcid, sample.sample_id AS smpid, 
       unaligned.unaligned_id AS unalid, datasource.datasource_id AS dsid, datasource.document_path AS docpath,
-      supportparams.supportparams_id AS supportid, project.project_id AS prjid, supportparams.document_path AS suppath
+      supportparams.supportparams_id AS supportid, project.project_id AS prjid, supportparams.document_path AS suppath,
+      basemask
       FROM sample, flowcell, unaligned, project, datasource, supportparams, demux
       WHERE sample.sample_id     = unaligned.sample_id
       AND   flowcell.flowcell_id = demux.flowcell_id
@@ -57,4 +58,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
       AND   flowcellname = '""" + fcname + """'
       ORDER BY flowcellname, sample.samplename, lane """
     print totalquery
+
+    allhits = dbc.generalquery(totalquery)
+    for hit in allhits:
+      print hit['smp'], basemask
+
 

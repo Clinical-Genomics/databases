@@ -33,6 +33,13 @@ with db.create_tunnel(pars['TUNNELCMD']):
   with db.dbconnect(pars['CLINICALDBHOST'], pars['CLINICALDBPORT'], pars['STATSDB'], 
                         pars['CLINICALDBUSER'], pars['CLINICALDBPASSWD']) as dbc:
 
+    def deletevalues(tableiddict):
+      
+      if stepone = dbc.sqldelete(unalignedid):
+        print stepone
+
+      return "It worked"
+        
     ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])
 
     if not ver == 'True':
@@ -189,9 +196,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
     for val in ids:
       if not yourreply == "A":
         if ids[val]['demuxid'] == dmxfound:
-          print "D", str(val), str(ids[val])
+          print "\tD", str(val), str(ids[val])
       else:
-        print val, ids[val]
+        print "\tA", str(val), str(ids[val])
       
     thirdreply = raw_input("\tARE YOU sure, this is the last warning? YES/[no] ")
     if thirdreply == "YES":
@@ -199,4 +206,12 @@ with db.create_tunnel(pars['TUNNELCMD']):
     else:
       exit("\tnehe, will exit . .\n")
 
+    for val in ids:
+      if not yourreply == "A":
+        if ids[val]['demuxid'] == dmxfound:
+          print "Deleting " + ids[val]
+          deletevalues(ids[val])
+      else:
+        print "Deleting " + ids[val]
+        deletevalues(ids[val])
 

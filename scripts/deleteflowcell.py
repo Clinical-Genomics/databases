@@ -190,7 +190,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       print "\n\t" + thirdreply
     else:
       exit("\tnehe, will exit . .\n")
- 
- for val in ids:
+
+for val in ids:
    print val
 

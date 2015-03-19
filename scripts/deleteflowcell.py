@@ -40,11 +40,53 @@ with db.create_tunnel(pars['TUNNELCMD']):
         print stepone
       else:
         forsamplequery = """ SELECT unaligned_id FROM unaligned WHERE sample_id = '""" + tableiddict['smpid'] + """' """ 
-        forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + tableiddict['projid'] + """' """
+        sampleleft = dbc.generalquery(forsamplequery)
+        if sampleleft:
+          """ Other unaligneds still refer to sample """
+        else:
+          steptwo = dbc.sqldelete('sample', tableiddict['smpid'])
+          if steptwo:
+            print steptwo
+        forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + tableiddict['prjid'] + """' """
+        projectleft = dbc.generalquery(forprojectquery)
+        if projectleft:
+          """ Other samples still refer to project """
+        else:
+          stepthree = dbc.sqldelete('sample', tableiddict['smpid'])
+          if stepthree:
+            print stepthree
         fordemuxquery = """ SELECT unaligned_id FROM unaligned WHERE demux_id = '""" + tableiddict['demuxid'] + """' """
+        demuxleft = dbc.generalquery(fordemuxquery)
+        if demuxleft:
+          """ Other unaligneds still refer to demux """
+        else:
+          stepfour = dbc.sqldelete('demux', tableiddict['demuxid'])
+          if stepfour:
+            print stepfour
         fordatasourcequery = """ SELECT demux_id FROM demux WHERE datasource_id = '""" + tableiddict['dsid'] + """' """
+        dsleft = dbc.generalquery(fordatasourcequery)
+        if dsleft:
+          """ Other demuxs still refer to datasource """
+        else:
+          stepfive = dbc.sqldelete('datasource', tableiddict['dsid'])
+          if stepfive:
+            print stepfive
         forsupportparamsquery = """ SELECT datasource_id FROM datasource WHERE supportparams_id = '""" + tableiddict['supportid'] + """' """
+        supleft = dbc.generalquery(forsupportparamsquery)
+        if supleft:
+          """ Other datasources still refer to supportparams """
+        else:
+          stepsix = dbc.sqldelete('supportparams', tableiddict['supportid'])
+          if stepsix:
+            print stepsix
         forflowcellquery = """ SELECT demux_id FROM demux WHERE flowcell_id = '""" + tableiddict['flcid'] + """' """
+        flcleft = dbc.generalquery(forflowcellquery)
+        if flcleft:
+          """ Other demuxs still refer to flowcell """
+        else:
+          stepsieben = dbc.sqldelete('flowcell', tableiddict['flcid'])
+          if stepsieben:
+            print stepsieben
       return 0
         
     ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])

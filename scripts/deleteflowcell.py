@@ -39,7 +39,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
       if stepone:
         print stepone
       else:
-        forsamplequery = """ SELECT unaligned_id FROM unaligned WHERE sample_id = '""" + tableiddict['smpid'] + """' """ 
+        forsamplequery = """ SELECT unaligned_id FROM unaligned WHERE sample_id = '""" + str(tableiddict['smpid']) + """' """ 
         sampleleft = dbc.generalquery(forsamplequery)
         if sampleleft:
           """ Other unaligneds still refer to sample """
@@ -47,7 +47,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           steptwo = dbc.sqldelete('sample', tableiddict['smpid'])
           if steptwo:
             print steptwo
-        forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + tableiddict['prjid'] + """' """
+        forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + str(tableiddict['prjid']) + """' """
         projectleft = dbc.generalquery(forprojectquery)
         if projectleft:
           """ Other samples still refer to project """
@@ -55,7 +55,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           stepthree = dbc.sqldelete('sample', tableiddict['smpid'])
           if stepthree:
             print stepthree
-        fordemuxquery = """ SELECT unaligned_id FROM unaligned WHERE demux_id = '""" + tableiddict['demuxid'] + """' """
+        fordemuxquery = """ SELECT unaligned_id FROM unaligned WHERE demux_id = '""" + str(tableiddict['demuxid']) + """' """
         demuxleft = dbc.generalquery(fordemuxquery)
         if demuxleft:
           """ Other unaligneds still refer to demux """
@@ -63,7 +63,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           stepfour = dbc.sqldelete('demux', tableiddict['demuxid'])
           if stepfour:
             print stepfour
-        fordatasourcequery = """ SELECT demux_id FROM demux WHERE datasource_id = '""" + tableiddict['dsid'] + """' """
+        fordatasourcequery = """ SELECT demux_id FROM demux WHERE datasource_id = '""" + str(tableiddict['dsid']) + """' """
         dsleft = dbc.generalquery(fordatasourcequery)
         if dsleft:
           """ Other demuxs still refer to datasource """
@@ -71,7 +71,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           stepfive = dbc.sqldelete('datasource', tableiddict['dsid'])
           if stepfive:
             print stepfive
-        forsupportparamsquery = """ SELECT datasource_id FROM datasource WHERE supportparams_id = '""" + tableiddict['supportid'] + """' """
+        forsupportparamsquery = """ SELECT datasource_id FROM datasource WHERE supportparams_id = '""" + str(tableiddict['supportid']) + """' """
         supleft = dbc.generalquery(forsupportparamsquery)
         if supleft:
           """ Other datasources still refer to supportparams """
@@ -79,7 +79,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           stepsix = dbc.sqldelete('supportparams', tableiddict['supportid'])
           if stepsix:
             print stepsix
-        forflowcellquery = """ SELECT demux_id FROM demux WHERE flowcell_id = '""" + tableiddict['flcid'] + """' """
+        forflowcellquery = """ SELECT demux_id FROM demux WHERE flowcell_id = '""" + str(tableiddict['flcid']) + """' """
         flcleft = dbc.generalquery(forflowcellquery)
         if flcleft:
           """ Other demuxs still refer to flowcell """

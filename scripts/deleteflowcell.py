@@ -42,9 +42,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
         forsamplequery = """ SELECT unaligned_id FROM unaligned WHERE sample_id = '""" + tableiddict['smpid'] + """' """ 
         forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + tableiddict['projid'] + """' """
         fordemuxquery = """ SELECT unaligned_id FROM unaligned WHERE demux_id = '""" + tableiddict['demuxid'] + """' """
-        fordatasourcequery = """ SELECT datasource_id FROM demux WHERE datasource_id = '""" + tableiddict['dsid'] + """' """
-        getsupportparamsquery
-        getflowcellquery
+        fordatasourcequery = """ SELECT demux_id FROM demux WHERE datasource_id = '""" + tableiddict['dsid'] + """' """
+        forsupportparamsquery = """ SELECT datasource_id FROM datasource WHERE supportparams_id = '""" + tableiddict['supportid'] + """' """
+        forflowcellquery = """ SELECT demux_id FROM demux WHERE flowcell_id = '""" + tableiddict['flcid'] + """' """
       return 0
         
     ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])

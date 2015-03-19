@@ -258,12 +258,12 @@ with db.create_tunnel(pars['TUNNELCMD']):
     for val in ids:
       if not yourreply == "A":
         if ids[val]['demuxid'] == dmxfound:
-          print "Deleting " + str(ids[val])
+          print "\tDeleting " + str(ids[val])
           answer = deletevalues(ids[val])
           if answer:
             exit(1)
       else:
-        print "Deleting " + str(ids[val])
+        print "\tDeleting " + str(ids[val])
         answer = deletevalues(ids[val])
         if answer:
           exit(1)

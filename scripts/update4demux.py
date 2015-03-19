@@ -53,10 +53,10 @@ else:
   exit ("Incorrect DB version. This script is made for "+str(_VERSION_)+" not for "
          +str(major)+"."+str(minor)+"."+str(patch))
 
-print "Database: "+params['STATSDB']
-#yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
-#if yourreply != "YES":
-#  exit()
+#print "Database: " + params['STATSDB']
+yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
+if yourreply != "YES":
+  exit()
 
 query1 = """ SELECT datasource_id, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
              unaligned_id, COUNT(DISTINCT sample.sample_id)

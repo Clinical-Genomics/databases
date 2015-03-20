@@ -35,7 +35,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
     def deletevalues(tableiddict):
       
-      stepone = dbc.sqldelete('unaligned', tableiddict['unalid'])
+      dbc.starttransaction()
+      stepone = dbc.sqldeletenocommit('unaligned', tableiddict['unalid'])
       if stepone:
         print stepone
       else:
@@ -44,7 +45,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if sampleleft:
           """ Other unaligneds still refer to sample """
         else:
-          steptwo = dbc.sqldelete('sample', tableiddict['smpid'])
+          steptwo = dbc.sqldeletenocommit('sample', tableiddict['smpid'])
           if steptwo:
             print steptwo
         forprojectquery = """ SELECT sample_id FROM sample WHERE project_id = '""" + str(tableiddict['prjid']) + """' """
@@ -52,7 +53,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if projectleft:
           """ Other samples still refer to project """
         else:
-          stepthree = dbc.sqldelete('sample', tableiddict['smpid'])
+          stepthree = dbc.sqldeletenocommit('sample', tableiddict['smpid'])
           if stepthree:
             print stepthree
         fordemuxquery = """ SELECT unaligned_id FROM unaligned WHERE demux_id = '""" + str(tableiddict['demuxid']) + """' """
@@ -60,7 +61,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if demuxleft:
           """ Other unaligneds still refer to demux """
         else:
-          stepfour = dbc.sqldelete('demux', tableiddict['demuxid'])
+          stepfour = dbc.sqldeletenocommit('demux', tableiddict['demuxid'])
           if stepfour:
             print stepfour
         fordatasourcequery = """ SELECT demux_id FROM demux WHERE datasource_id = '""" + str(tableiddict['dsid']) + """' """
@@ -68,7 +69,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if dsleft:
           """ Other demuxs still refer to datasource """
         else:
-          stepfive = dbc.sqldelete('datasource', tableiddict['dsid'])
+          stepfive = dbc.sqldeletenocommit('datasource', tableiddict['dsid'])
           if stepfive:
             print stepfive
         forsupportparamsquery = """ SELECT datasource_id FROM datasource WHERE supportparams_id = '""" + str(tableiddict['supportid']) + """' """
@@ -76,7 +77,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if supleft:
           """ Other datasources still refer to supportparams """
         else:
-          stepsix = dbc.sqldelete('supportparams', tableiddict['supportid'])
+          stepsix = dbc.sqldeletenocommit('supportparams', tableiddict['supportid'])
           if stepsix:
             print stepsix
         forflowcellquery = """ SELECT demux_id FROM demux WHERE flowcell_id = '""" + str(tableiddict['flcid']) + """' """
@@ -84,9 +85,10 @@ with db.create_tunnel(pars['TUNNELCMD']):
         if flcleft:
           """ Other demuxs still refer to flowcell """
         else:
-          stepsieben = dbc.sqldelete('flowcell', tableiddict['flcid'])
+          stepsieben = dbc.sqldeletenocommit('flowcell', tableiddict['flcid'])
           if stepsieben:
             print stepsieben
+      dbc.committransaction()
       return 0
         
     ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])

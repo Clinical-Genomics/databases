@@ -44,7 +44,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
     if alltables:
       print str(alltables)
       for num in range(len(alltables)):
-        print alltables[num][1]
+        print alltables[num]
+        for key in alltables[num]:
+          print alltables[num][key]
 
 
 

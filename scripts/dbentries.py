@@ -50,7 +50,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
           query = """ SELECT COUNT(*) AS cnt FROM """ + alltables[num][key] + """ """
           count = dbc.generalquery(query)
           if count:
-            print alltables[num][key], str(count)
+            print alltables[num][key], str(int(count['cnt']))
 
 
 

@@ -33,3 +33,32 @@ with db.create_tunnel(pars['TUNNELCMD']):
   with db.dbconnect(pars['CLINICALDBHOST'], pars['CLINICALDBPORT'], pars['STATSDB'], 
                         pars['CLINICALDBUSER'], pars['CLINICALDBPASSWD']) as dbc:
 
+    ver = dbc.versioncheck(pars['STATSDB'], pars['DBVERSION'])
+
+    if not ver == 'True':
+      print "Wrong db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
+      exit(0) 
+    else:
+      print "Correct db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
+
+
+
+
+
+
+
+
+
+
+
+
+#print "\n\tcontent of 'clinstatsdb'  " + now
+#for tabell in ['datasource', 'flowcell', 'project', 'sample', 'supportparams', 'unaligned']:
+#  cursor.execute(""" SELECT COUNT(*) FROM """ + tabell)
+#  if not cursor.fetchone():
+#    print "Table " + tabell + " not found . . . "
+#  else:
+#    cursor.execute(""" SELECT COUNT(*) FROM """ + tabell)
+#    match = cursor.fetchone()
+#    print "\t%15s %6d" % (tabell, match[0])
+#print "\n"

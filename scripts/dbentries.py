@@ -43,8 +43,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
     alltables = dbc.generalquery(tablequery)
     if alltables:
       print str(alltables)
-      for key, val in alltables:
-        print val
+      for num in alltables:
+        print num[1]
 
 
 

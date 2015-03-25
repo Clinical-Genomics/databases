@@ -44,12 +44,13 @@ with db.create_tunnel(pars['TUNNELCMD']):
     if alltables:
       print str(alltables)
       for num in range(len(alltables)):
-        print alltables[num]
+#        print alltables[num]
         for key in alltables[num]:
           print alltables[num][key]
-
-
-
+          query = """ SELECT COUNT(*) AS cnt FROM '""" + alltables[num][key] + """' """
+          count = dbc.generalquery(query)
+          if count:
+            print alltables[num][key], str(count)
 
 
 

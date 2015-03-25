@@ -42,7 +42,7 @@ with db.create_tunnel(pars['TUNNELCMD']):
     tablequery = """ SHOW TABLES """
     alltables = dbc.generalquery(tablequery)
     if alltables:
-      print str(alltables)
+#      print str(alltables)
       for num in range(len(alltables)):
 #        print alltables[num]
         for key in alltables[num]:

@@ -39,8 +39,10 @@ with db.create_tunnel(pars['TUNNELCMD']):
     else:
       print "Correct db " + pars['STATSDB'] + " v:" + pars['DBVERSION']
 
-
-
+    tablequery = """ SHOW TABLES """
+    alltables = dbc.generalquery(tablequery)
+    if alltables:
+      print str(alltables)
 
 
 

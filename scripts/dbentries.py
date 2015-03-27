@@ -53,8 +53,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
           if count:
             print alltables[num][key], str(int(count[0]['cnt']))
 
-    namequery = """ SELECT COUNT(sample_id) AS cnt, samplename AS name, group_concat(sample_id) AS ids """ +
-                 """ FROM sample GROUP BY samplename ORDER BY cnt DESC LIMIT 5; """
+    namequery = """ SELECT COUNT(sample_id) AS cnt, samplename AS name, group_concat(sample_id) AS ids 
+                 FROM sample GROUP BY samplename ORDER BY cnt DESC LIMIT 5; """
     names = dbc.generalquery(namequery)
     print "NAME COUNT IDs"
     if names:

@@ -67,15 +67,3 @@ with db.create_tunnel(pars['TUNNELCMD']):
 
 
 
-
-
-#print "\n\tcontent of 'clinstatsdb'  " + now
-#for tabell in ['datasource', 'flowcell', 'project', 'sample', 'supportparams', 'unaligned']:
-#  cursor.execute(""" SELECT COUNT(*) FROM """ + tabell)
-#  if not cursor.fetchone():
-#    print "Table " + tabell + " not found . . . "
-#  else:
-#    cursor.execute(""" SELECT COUNT(*) FROM """ + tabell)
-#    match = cursor.fetchone()
-#    print "\t%15s %6d" % (tabell, match[0])
-#print "\n"

@@ -43,11 +43,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
     alltables = dbc.generalquery(tablequery)
     print "TABLE rowcount"
     if alltables:
-#      print str(alltables)
       for num in range(len(alltables)):
-#        print alltables[num]
         for key in alltables[num]:
-#          print alltables[num][key]
           query = """ SELECT COUNT(*) AS cnt FROM """ + alltables[num][key] + """ """
           count = dbc.generalquery(query)
           if count:
@@ -58,12 +55,8 @@ with db.create_tunnel(pars['TUNNELCMD']):
     names = dbc.generalquery(namequery)
     print "NAME COUNT IDs"
     if names:
-#      print str(alltables)
       for num in range(len(names)):
-#        print alltables[num]
-#        for key in names[num]:
-#          print alltables[num][key]
-        print names[num][name], names[num][cnt], names[num][ids] 
+        print names[num]['name'], names[num]['cnt'], names[num]['ids'] 
 
 
 

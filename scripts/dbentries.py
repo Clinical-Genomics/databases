@@ -56,7 +56,9 @@ with db.create_tunnel(pars['TUNNELCMD']):
     print "NAME COUNT IDs"
     if names:
       for num in range(len(names)):
-        print names[num]['name'], names[num]['cnt'], names[num]['ids'] 
-
+        if names[num]['cnt'] > 1:
+          print names[num]['name'], names[num]['cnt'], names[num]['ids'], ' - - - W A R N I N G !'
+        else:
+          print names[num]['name'], names[num]['cnt'], names[num]['ids'], 'ok'
 
 

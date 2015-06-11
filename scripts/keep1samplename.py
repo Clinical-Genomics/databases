@@ -2,8 +2,6 @@
 #Script that connects to the MySQL database and parses data from an html table
 #Import the mysql.connector library/module
 #
-#  from the bash script starting qc parsing to db
-#  /home/clinical/SCRIPTS/parseunaligned_dbserver.py /home/clinical/DEMUX/${RUN}/ /home/clinical/RUNS/${RUN}/Data/Intensities/BaseCalls/SampleSheet.csv
 #
 import sys
 import MySQLdb as mysql
@@ -55,6 +53,10 @@ else:
   exit ("Incorrect DB version. This script is made for "+str(_VERSION_)+" not for "
          +str(major)+"."+str(minor)+"."+str(patch))
 
+print "Database: "+params['STATSDB']
+yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
+if yourreply != "YES":
+  exit()
 
 query1 = """ SELECT projectname, samplename, GROUP_CONCAT(DISTINCT sample.sample_id), MIN(sample.sample_id), 
              unaligned_id, COUNT(DISTINCT sample.sample_id)

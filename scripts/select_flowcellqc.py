@@ -15,15 +15,10 @@ import re
 import socket
 import os
 
-# this script is written for database version:
-_MAJOR_ = 1
-_MINOR_ = 0
-_PATCH_ = 0
-
 configfile = "/home/hiseq.clinical/.scilifelabrc"
-if (len(sys.argv)>3):
-  if os.path.isfile(sys.argv[3]):
-    configfile = sys.argv[3]
+if (len(sys.argv)>1):
+  if os.path.isfile(sys.argv[1]):
+    configfile = sys.argv[1]
     
 params = {}
 with open(configfile, "r") as confs:
@@ -33,12 +28,10 @@ with open(configfile, "r") as confs:
       pv = line.split(" ")
       params[pv[0]] = pv[1]
 
-# config file test
-#sys.exit(configfile+ params['STATSDB'])
-
-# read in run parameters from Unaligned/support.txt
 
 now = time.strftime('%Y-%m-%d %H:%M:%S')
+# this script is written for database version:
+_VERSION_ = params['DBVERSION']
 cnx = mysql.connect(user=params['CLINICALDBUSER'], port=int(params['CLINICALDBPORT']), host=params['CLINICALDBHOST'], 
                     passwd=params['CLINICALDBPASSWD'], db=params['STATSDB'])
 cursor = cnx.cursor()
@@ -51,22 +44,19 @@ if row is not None:
   patch = row[2]
 else:
   sys.exit("Incorrect DB, version not found.")
-if (major == _MAJOR_ and minor == _MINOR_ and patch == _PATCH_):
-  print "Correct database version "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)
+if (str(major)+"."+str(minor)+"."+str(patch) == _VERSION_):
+  print "Correct database " + params['STATSDB'] + "  version "+str(_VERSION_)
 else:
-  exit ("Incorrect DB version. This script is made for "+str(_MAJOR_)+"."+str(_MINOR_)+"."+str(_PATCH_)+" not for "+
-         str(major)+"."+str(minor)+"."+str(patch))
+  exit (params['STATSDB'] + " - Incorrect DB version. This script is made for "+str(_VERSION_) +
+      " not for " + str(major)+"."+str(minor)+"."+str(patch))
 
-print "hello"
-cursor.execute(""" SELECT project_id, time FROM project WHERE projectname = %s """, ("987546", ))
-if not cursor.fetchone():
-  print "Project not yet added"
-else:
-  print "P found"
+yourreply = raw_input("\n\tIs this the correct database? YES/[no] ")
+if yourreply != "YES":
+  exit()
 
 cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(DISTINCT datasource.datasource_id) AS runs, 
                    ROUND(SUM(readcounts)/2000000, 2) AS "mil reads", 
-                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc lane"
+                   ROUND(SUM(readcounts)/(2000000*COUNT(DISTINCT datasource.datasource_id)),1) AS "mil reads/fc"
                   FROM datasource 
                   LEFT JOIN flowcell ON datasource.datasource_id = flowcell.datasource_id 
                   LEFT JOIN unaligned ON unaligned.flowcell_id = flowcell.flowcell_id 
@@ -75,7 +65,7 @@ cursor.execute(""" SELECT YEAR(rundate) AS year, MONTH(rundate) AS month, COUNT(
 if not cursor.fetchone():
   print "Nothing found"
 else:
-  print "Found something"
+  print "YEAR MM runs Mreads reads/fc"
   rows = cursor.fetchall()
   for row in rows:
     print row[0], row[1], row[2], row[3], row[4]
@@ -105,7 +95,7 @@ cursor.execute(completeflowcells)
 if not cursor.fetchone():
   print "Nothing found"
 else:
-  print "Found something"
+  print "start runname cnt fc lane readcounts Mreads/lane Q30 runid reads>Q30"
   rows = cursor.fetchall()
   for row in rows:
     q30joined = row[6].split(',')

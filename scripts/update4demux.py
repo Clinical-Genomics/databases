@@ -54,7 +54,7 @@ else:
          +str(major)+"."+str(minor)+"."+str(patch))
 
 #print "Database: " + params['STATSDB']
-yourreply = input("\n\tDO YOU want to restructure this database? YES/[no] ")
+yourreply = raw_input("\n\tDO YOU want to restructure this database? YES/[no] ")
 if yourreply != "YES":
   exit()
 
